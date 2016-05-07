@@ -49,6 +49,7 @@ public class MazePuzzle {
     }
 
     //todo currently does not always generate a solvable maze
+    //has bug with generating walls between positions for the top row
      public static Position[][] generateMaze(Difficulty difficulty) {
         Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
 
@@ -69,6 +70,11 @@ public class MazePuzzle {
                             maze[i][j].upOpen = false;
                             if (j == (MAZE_SIZE - 1)) {
                                 maze[i][j].rightOpen = false;
+                            } else {
+                                rand = randomGen.nextInt(10);
+                                if (rand < 6) {
+                                    maze[i][j].rightOpen = false;
+                                }
                             }
                         }
                         //Left border position
@@ -76,6 +82,16 @@ public class MazePuzzle {
                             maze[i][j].leftOpen = false;
                             if (i == (MAZE_SIZE - 1)) {
                                 maze[i][j].downOpen = false;
+                            } else {
+                                rand = randomGen.nextInt(10);
+                                if (rand < 6) {
+                                    maze[i][j].downOpen = false;
+                                }
+                            }
+                        } else {
+                            rand = randomGen.nextInt(10);
+                            if (rand < 6) {
+                                maze[i][j].rightOpen = false;
                             }
                         }
                     } else {
@@ -89,7 +105,7 @@ public class MazePuzzle {
                         //Randomly choose if there are walls
                         } else {
                             rand = randomGen.nextInt(10);
-                            if (rand < 7) {
+                            if (rand < 6) {
                                 maze[i][j].downOpen = true;
                             }
                         }
@@ -100,7 +116,7 @@ public class MazePuzzle {
                         //Randomly choose if there are walls
                         } else {
                             rand = randomGen.nextInt(10);
-                            if (rand < 7) {
+                            if (rand < 6) {
                                 maze[i][j].rightOpen = true;
                             }
 
