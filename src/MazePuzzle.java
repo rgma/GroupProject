@@ -48,7 +48,7 @@ public class MazePuzzle {
         return maze;
     }
 
-    //todo currently does not generate a solvable maze
+    //todo currently does not always generate a solvable maze
      public static Position[][] generateMaze(Difficulty difficulty) {
         Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
 
@@ -125,7 +125,7 @@ public class MazePuzzle {
         int[] playerLocation = new int[2]; //x,y co-ord
         boolean running = true;
         String userInputLine = "";
-        //todo read input with needing to press enter after every command
+        //todo read input without needing to press enter after every command
         BufferedReader userInput =
                 new BufferedReader(new InputStreamReader(System.in));
 
