@@ -76,6 +76,9 @@ public class MazePuzzle {
                                     maze[i][j].rightOpen = false;
                                 }
                             }
+                            if (j != 0) {
+                                maze[i][j].leftOpen = maze[i][j-1].rightOpen;
+                            }
                         }
                         //Left border position
                         if (j == 0) {
@@ -87,6 +90,9 @@ public class MazePuzzle {
                                 if (rand < 6) {
                                     maze[i][j].downOpen = false;
                                 }
+                            }
+                            if (i != 0) {
+                                maze[i][j].upOpen = maze[i-1][j].downOpen;
                             }
                         } else {
                             rand = randomGen.nextInt(10);
