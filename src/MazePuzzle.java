@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MazePuzzle {
@@ -11,136 +13,117 @@ public class MazePuzzle {
         UP, DOWN, LEFT, RIGHT
     }
     public static final int MAZE_SIZE = 10;
-    public static Position[][] maze;
+    public static Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
 
     public static void main (String args[]) {
-        maze = generateMaze(Difficulty.EASY);
+        maze = generateMaze();
         playGame();
         System.out.println("Game Over");
     }
 
-    //used to test player movement and board printing
-    public static Position[][] testMaze() {
-        Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
+    //Generates a maze using randomised DFS. The starting and exit points are
+    //always top left and bottom right respectively
+    public static Position[][] generateMaze() {
+        List<Position> positionList = new ArrayList<>();
+        Direction direction;
+        Position currPos;
+
+        //Initalise maze positions
         for (int i = 0; i < MAZE_SIZE; i++) {
             for (int j = 0; j < MAZE_SIZE; j++) {
-                maze[i][j] = new Position(false, false, false, false);//true, true, true, true);
+                maze[i][j] = new Position(false, false, false, false);
+                maze[i][j].posX = i;
+                maze[i][j].posY = j;
             }
         }
-        int i = 1;
-        for (int j = 0; j < MAZE_SIZE; j++) {
-            maze[i][j].rightOpen = true;
-            maze[i][j].leftOpen = true;
+
+        //Choose starting position as top left
+        currPos = maze[0][0];
+        currPos.visited = true;
+        positionList.add(currPos);
+
+        //Choose a random direction with an unvisited position
+        direction = chooseRandUnvisitedNeigh(currPos);
+
+        //Add right neighbour
+        if (direction == Direction.RIGHT) {
+            maze[0][0].rightOpen = true;
+            maze[0][1].leftOpen = true;
+            positionList.add(0, maze[0][1]);
+        //Add bottom neighbour
+        } else if (direction == Direction.DOWN) {
+            maze[0][0].downOpen = true;
+            maze[1][0].upOpen = true;
+            positionList.add(0, maze[1][0]);
         }
 
-        int j = 1;
-        for (i = 0; i < MAZE_SIZE; i++) {
-            maze[i][j].downOpen = true;
-            maze[i][j].upOpen = true;
+        while (!positionList.isEmpty()) {
+            currPos = positionList.get(0);
+            currPos.visited = true;
+            direction = chooseRandUnvisitedNeigh(currPos);
+
+            if (direction == Direction.UP) {
+                maze[currPos.posX][currPos.posY].upOpen = true;
+                maze[currPos.posX - 1][currPos.posY].downOpen = true;
+                positionList.add(0, maze[currPos.posX - 1][currPos.posY]);
+            } else if (direction == Direction.LEFT) {
+                maze[currPos.posX][currPos.posY].leftOpen = true;
+                maze[currPos.posX][currPos.posY - 1].rightOpen = true;
+                positionList.add(0, maze[currPos.posX][currPos.posY - 1]);
+            } else if (direction == Direction.RIGHT) {
+                maze[currPos.posX][currPos.posY].rightOpen = true;
+                maze[currPos.posX][currPos.posY + 1].leftOpen = true;
+                positionList.add(0, maze[currPos.posX][currPos.posY + 1]);
+            } else if (direction == Direction.DOWN) {
+                maze[currPos.posX][currPos.posY].downOpen = true;
+                maze[currPos.posX + 1][currPos.posY].upOpen = true;
+                positionList.add(0, maze[currPos.posX + 1][currPos.posY]);
+            } else {
+                positionList.remove(currPos);
+            }
         }
 
-        j = 4;
-        for (i = 0; i < MAZE_SIZE; i++) {
-            maze[i][j].downOpen = true;
-            maze[i][j].upOpen = true;
-        }
+        //Create exit position in bottom right
+        maze[MAZE_SIZE-1][MAZE_SIZE-1].downOpen = true;
 
         return maze;
     }
 
-    //todo currently does not always generate a solvable maze
-    //has bug with generating walls between positions for the top row
-     public static Position[][] generateMaze(Difficulty difficulty) {
-        Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
+    //Returns the direction of a random unvisited neighbour of given position
+    public static Direction chooseRandUnvisitedNeigh (Position currPos) {
+        int rand;
+        int directionArrayCount = 0;
+        Random randGen = new Random();
+        Direction direction = null;
+        Direction directionArray[] = new Direction[4];
 
-        //Randomly choose where wall should be
-        if (difficulty == Difficulty.EASY) {
-            Random randomGen = new Random();
-            int rand;
-
-            for (int i = 0; i < MAZE_SIZE; i++) {
-                for (int j = 0; j < MAZE_SIZE; j++) {
-                    //Initialise maze position
-                    maze[i][j] = new Position(false, false, false, false);
-
-                    if (i == 0 || j == 0) {
-                        maze[i][j] = new Position(true, true, true, true);
-                        //Top border position
-                        if (i == 0) {
-                            maze[i][j].upOpen = false;
-                            if (j == (MAZE_SIZE - 1)) {
-                                maze[i][j].rightOpen = false;
-                            } else {
-                                rand = randomGen.nextInt(10);
-                                if (rand < 6) {
-                                    maze[i][j].rightOpen = false;
-                                }
-                            }
-                            if (j != 0) {
-                                maze[i][j].leftOpen = maze[i][j-1].rightOpen;
-                            }
-                        }
-                        //Left border position
-                        if (j == 0) {
-                            maze[i][j].leftOpen = false;
-                            if (i == (MAZE_SIZE - 1)) {
-                                maze[i][j].downOpen = false;
-                            } else {
-                                rand = randomGen.nextInt(10);
-                                if (rand < 6) {
-                                    maze[i][j].downOpen = false;
-                                }
-                            }
-                            if (i != 0) {
-                                maze[i][j].upOpen = maze[i-1][j].downOpen;
-                            }
-                        } else {
-                            rand = randomGen.nextInt(10);
-                            if (rand < 6) {
-                                maze[i][j].rightOpen = false;
-                            }
-                        }
-                    } else {
-                        //Copy from left and up neighbours
-                        maze[i][j].leftOpen = maze[i][j-1].rightOpen;
-                        maze[i][j].upOpen = maze[i-1][j].downOpen;
-
-                        //Bottom border position
-                        if (i == (MAZE_SIZE - 1)) {
-                            maze[i][j].downOpen = false;
-                        //Randomly choose if there are walls
-                        } else {
-                            rand = randomGen.nextInt(10);
-                            if (rand < 6) {
-                                maze[i][j].downOpen = true;
-                            }
-                        }
-
-                        //Right border position
-                        if (j == (MAZE_SIZE - 1)) {
-                            maze[i][j].rightOpen = false;
-                        //Randomly choose if there are walls
-                        } else {
-                            rand = randomGen.nextInt(10);
-                            if (rand < 6) {
-                                maze[i][j].rightOpen = true;
-                            }
-
-                        }
-                    }
-                }
-            }
-
-            //Create an exit from the maze
-            maze[MAZE_SIZE-1][MAZE_SIZE-1].downOpen = true;
-
-        } else if (difficulty == Difficulty.MEDIUM) {
-            //todo
-        } else if (difficulty == Difficulty.HARD){
-            //todo
+        //check top
+        if (currPos.posX > 0 && !maze[currPos.posX-1][currPos.posY].visited) {
+            directionArray[directionArrayCount] = Direction.UP;
+            directionArrayCount++;
+        }
+        //check bottom
+        if (currPos.posX < (MAZE_SIZE - 1) && !maze[currPos.posX+1][currPos.posY].visited) {
+            directionArray[directionArrayCount] = Direction.DOWN;
+            directionArrayCount++;
+        }
+        //check left
+        if (currPos.posY > 0 && !maze[currPos.posX][currPos.posY-1].visited) {
+            directionArray[directionArrayCount] = Direction.LEFT;
+            directionArrayCount++;
+        }
+        //check bottom
+        if (currPos.posY < (MAZE_SIZE - 1) && !maze[currPos.posX][currPos.posY+1].visited) {
+            directionArray[directionArrayCount] = Direction.RIGHT;
+            directionArrayCount++;
+        }
+        //Randomly choose from an array of valid choices
+        if (directionArrayCount != 0) {
+            rand = randGen.nextInt(directionArrayCount);
+            direction = directionArray[rand];
         }
 
-        return maze;
+        return direction;
     }
 
     public static void playGame () {
@@ -191,19 +174,19 @@ public class MazePuzzle {
             int x = playerLocation[0];
             int y = playerLocation[1];
 
-            if (direction == direction.UP) {
+            if (direction == Direction.UP) {
                 if (maze[x][y].upOpen) {
                     playerLocation[0] = playerLocation[0] - 1;
                 }
-            } else if (direction == direction.DOWN) {
+            } else if (direction == Direction.DOWN) {
                 if (maze[x][y].downOpen) {
                     playerLocation[0] = playerLocation[0] + 1;
                 }
-            } else if (direction == direction.LEFT) {
+            } else if (direction == Direction.LEFT) {
                 if (maze[x][y].leftOpen) {
                     playerLocation[1] = playerLocation[1] - 1;
                 }
-            } else if (direction == direction.RIGHT) {
+            } else if (direction == Direction.RIGHT) {
                 if (maze[x][y].rightOpen) {
                     playerLocation[1] = playerLocation[1] + 1;
                 }
@@ -215,9 +198,7 @@ public class MazePuzzle {
         return playerLocation;
     }
 
-    //seems to work fine
     public static void printMaze(int[] playerLocation) {
-
         //Print top border
         for (int k = 0; k < MAZE_SIZE; k++) {
             if (k == 0) {
@@ -231,14 +212,14 @@ public class MazePuzzle {
 
         for (int i = 0; i < MAZE_SIZE; i++) {
             for (int j = 0; j < MAZE_SIZE; j++) {
-                //There is a wall blocking movement left
-                if (maze[i][j].leftOpen == false) {
+                //Wall blocking movement left
+                if (!maze[i][j].leftOpen) {
                     System.out.print("| ");
                 } else {
                     System.out.print("  ");
                 }
                 //Player is at current position
-                if (playerLocation[0] == i && playerLocation[1] == j) { //todo check this works
+                if (playerLocation[0] == i && playerLocation[1] == j) {
                     System.out.print("X ");
                 } else {
                     System.out.print("  ");
@@ -248,8 +229,8 @@ public class MazePuzzle {
 
             //Print bottom wall
             for (int k = 0; k < MAZE_SIZE; k++) {
-                //Check there is a wall blocking movement down
-                if (maze[i][k].downOpen == false) {
+                //Wall blocking movement down
+                if (!maze[i][k].downOpen) {
                     System.out.print("+---");
                 } else {
                     System.out.print("+   ");

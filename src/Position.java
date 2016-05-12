@@ -3,6 +3,9 @@ public class Position {
     public boolean leftOpen;
     public boolean downOpen;
     public boolean upOpen;
+    public int posX;
+    public int posY;
+    public boolean visited = false;
 
     public Position(boolean rightOpen, boolean leftOpen, boolean downOpen,
                     boolean upOpen) {
