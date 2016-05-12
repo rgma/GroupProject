@@ -17,8 +17,9 @@ public class MazePuzzle {
 
     public static void main (String args[]) {
         maze = generateMaze();
-        playGame();
+       //playGame();
         System.out.println("Game Over");
+        new Maze(maze);
     }
 
     //Generates a maze using randomised DFS. The starting and exit points are
