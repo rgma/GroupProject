@@ -192,7 +192,7 @@ public class MazePuzzle {
                 }
             }
         } else {
-            //todo error
+            System.out.println("Error: maze is not initialised in function movePlayer");
         }
 
         return playerLocation;
