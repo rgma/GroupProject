@@ -14,20 +14,22 @@ public class MazePuzzle {
     }
     public static final int MAZE_SIZE = 10;
     public static Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
+    public static Difficulty difficulty;
 
     public static void main (String args[]) {
+        difficulty = Difficulty.MEDIUM;
         maze = generateMaze();
-       //playGame();
-        System.out.println("Game Over");
         new Maze(maze);
     }
 
-    //Generates a maze using randomised DFS. The starting and exit points are
+    //Generates a maze using weighted randomised DFS. The starting and exit points are
     //always top left and bottom right respectively
     public static Position[][] generateMaze() {
         List<Position> positionList = new ArrayList<>();
         Direction direction;
         Position currPos;
+        Random randGen = new Random();
+        int rand;
 
         //Initalise maze positions
         for (int i = 0; i < MAZE_SIZE; i++) {
@@ -41,18 +43,16 @@ public class MazePuzzle {
         //Choose starting position as top left
         currPos = maze[0][0];
         currPos.visited = true;
-        positionList.add(currPos);
 
-        //Choose a random direction with an unvisited position
-        direction = chooseRandUnvisitedNeigh(currPos);
+        rand = randGen.nextInt(2);
 
         //Add right neighbour
-        if (direction == Direction.RIGHT) {
+        if (rand == 0) {
             maze[0][0].rightOpen = true;
             maze[0][1].leftOpen = true;
             positionList.add(0, maze[0][1]);
-        //Add bottom neighbour
-        } else if (direction == Direction.DOWN) {
+            //Add bottom neighbour
+        } else {
             maze[0][0].downOpen = true;
             maze[1][0].upOpen = true;
             positionList.add(0, maze[1][0]);
@@ -61,7 +61,7 @@ public class MazePuzzle {
         while (!positionList.isEmpty()) {
             currPos = positionList.get(0);
             currPos.visited = true;
-            direction = chooseRandUnvisitedNeigh(currPos);
+            direction = chooseUnvisitedNeighbour(currPos);
 
             if (direction == Direction.UP) {
                 maze[currPos.posX][currPos.posY].upOpen = true;
@@ -90,48 +90,127 @@ public class MazePuzzle {
         return maze;
     }
 
-    //Returns the direction of a random unvisited neighbour of given position
-    public static Direction chooseRandUnvisitedNeigh (Position currPos) {
+    //Returns the direction of an unvisited neighbour of given position
+    public static Direction chooseUnvisitedNeighbour(Position currPos) {
         int rand;
         int directionArrayCount = 0;
+        int movementweighting = 0;
         Random randGen = new Random();
-        Direction direction = null;
+        Direction directionTo = null;
+        Direction directionFrom = null;
         Direction directionArray[] = new Direction[4];
+        List<Direction> directionList = new ArrayList<>();
 
-        //check top
-        if (currPos.posX > 0 && !maze[currPos.posX-1][currPos.posY].visited) {
-            directionArray[directionArrayCount] = Direction.UP;
-            directionArrayCount++;
+        //Check top neighbour
+        if (currPos.posX > 0) {
+            //Find a possible movement direction
+            if (!maze[currPos.posX - 1][currPos.posY].visited) {
+                directionList.add(Direction.UP);
+            } else if (maze[currPos.posX][currPos.posY].upOpen){
+                directionFrom = Direction.UP;
+            }
         }
-        //check bottom
-        if (currPos.posX < (MAZE_SIZE - 1) && !maze[currPos.posX+1][currPos.posY].visited) {
-            directionArray[directionArrayCount] = Direction.DOWN;
-            directionArrayCount++;
+        //Check bottom neighbour
+        if (currPos.posX < (MAZE_SIZE - 1)) {
+            //Find a possible movement direction
+            if (!maze[currPos.posX + 1][currPos.posY].visited) {
+                directionList.add(Direction.DOWN);
+            } else if (maze[currPos.posX][currPos.posY].downOpen){
+                directionFrom = Direction.DOWN;
+            }
         }
-        //check left
-        if (currPos.posY > 0 && !maze[currPos.posX][currPos.posY-1].visited) {
-            directionArray[directionArrayCount] = Direction.LEFT;
-            directionArrayCount++;
+        //Check left neighbour
+        if (currPos.posY > 0) {
+            if (!maze[currPos.posX][currPos.posY - 1].visited) {
+                directionList.add(Direction.LEFT);
+            } else if (maze[currPos.posX][currPos.posY].leftOpen){
+                directionFrom = Direction.LEFT;
+            }
         }
-        //check bottom
-        if (currPos.posY < (MAZE_SIZE - 1) && !maze[currPos.posX][currPos.posY+1].visited) {
-            directionArray[directionArrayCount] = Direction.RIGHT;
-            directionArrayCount++;
-        }
-        //Randomly choose from an array of valid choices
-        if (directionArrayCount != 0) {
-            rand = randGen.nextInt(directionArrayCount);
-            direction = directionArray[rand];
+        //Check right neighbour
+        if (currPos.posY < (MAZE_SIZE - 1)) {
+            if (!maze[currPos.posX][currPos.posY + 1].visited) {
+                directionList.add(Direction.RIGHT);
+            } else if (maze[currPos.posX][currPos.posY].rightOpen){
+                directionFrom = Direction.RIGHT;
+            }
         }
 
-        return direction;
+        //The difficulty affect the maze generation
+        if (difficulty == Difficulty.EASY) {
+            movementweighting = 20;
+        } else if (difficulty == Difficulty.MEDIUM) {
+            movementweighting = 40;
+        } else if (difficulty == Difficulty.HARD) {
+            movementweighting = 60;
+        }
+
+        if (directionList.size() != 0) {
+            while (directionTo == null) {
+                rand = randGen.nextInt(100);
+                if (directionFrom == Direction.RIGHT || directionFrom == Direction.LEFT) {
+                    //Favor movement in a right angle directions depending on the
+                    //movementWeighting
+                    if (rand <= movementweighting) {
+                        rand = randGen.nextInt(2);
+                        if (rand == 0) {
+                            if (directionList.contains(Direction.UP)) {
+                                directionTo = Direction.UP;
+                            }
+                        } else {
+                            if (directionList.contains(Direction.DOWN)) {
+                                directionTo = Direction.DOWN;
+                            }
+                        }
+                    } else {
+                        rand = randGen.nextInt(2);
+                        if (rand == 0) {
+                            if (directionList.contains(Direction.RIGHT)) {
+                                directionTo = Direction.RIGHT;
+                            }
+                        } else {
+                            if (directionList.contains(Direction.LEFT)) {
+                                directionTo = Direction.LEFT;
+                            }
+                        }
+                    }
+                } else if (directionFrom == Direction.DOWN || directionFrom == Direction.UP) {
+                    //Favor movement in a right angle directions depending on the
+                    //movementWeighting
+                    if (rand <= movementweighting) {
+                        rand = randGen.nextInt(2);
+                        if (rand == 0) {
+                            if (directionList.contains(Direction.RIGHT)) {
+                                directionTo = Direction.RIGHT;
+                            }
+                        } else {
+                            if (directionList.contains(Direction.LEFT)) {
+                                directionTo = Direction.LEFT;
+                            }
+                        }
+                    } else {
+                        rand = randGen.nextInt(2);
+                        if (rand == 0) {
+                            if (directionList.contains(Direction.UP)) {
+                                directionTo = Direction.UP;
+                            }
+                        } else {
+                            if (directionList.contains(Direction.DOWN)) {
+                                directionTo = Direction.DOWN;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return directionTo;
     }
 
-    public static void playGame () {
+    public static void debugTerminalPlayGame() {
         int[] playerLocation = new int[2]; //x,y co-ord
         boolean running = true;
         String userInputLine = "";
-        //todo read input without needing to press enter after every command
         BufferedReader userInput =
                 new BufferedReader(new InputStreamReader(System.in));
 
@@ -151,13 +230,13 @@ public class MazePuzzle {
             //Move up
             if (userInputLine.contains("w")) {
                 movePlayer(playerLocation, Direction.UP);
-            //Move left
+                //Move left
             } else if (userInputLine.contains(("a"))) {
                 movePlayer(playerLocation, Direction.LEFT);
-            //Move down
+                //Move down
             } else if (userInputLine.contains(("s"))) {
                 movePlayer(playerLocation, Direction.DOWN);
-            //Move right
+                //Move right
             } else if (userInputLine.contains(("d"))) {
                 movePlayer(playerLocation, Direction.RIGHT);
             }
@@ -170,7 +249,7 @@ public class MazePuzzle {
     }
 
     public static int[] movePlayer (int[] playerLocation,
-                                           Direction direction) {
+                                    Direction direction) {
         if (maze != null) {
             int x = playerLocation[0];
             int y = playerLocation[1];
