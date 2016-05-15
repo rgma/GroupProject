@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
@@ -6,7 +5,6 @@ import java.awt.geom.Line2D;
 import javax.swing.*;
 
 public class Board extends JPanel implements ActionListener{
-	
 	public Player player;
 	private Timer timer;
 	public static Position[][] maze;
@@ -14,13 +12,11 @@ public class Board extends JPanel implements ActionListener{
 	public Board(Position[][] maze){
 		player = new Player();
 		this.maze = maze;
-		
 		timer = new Timer(25, this);
 		timer.start();
 		addKeyListener(new AL());
 		setFocusable(true);
-		
-		}
+	}
 	
 	public void actionPerformed(ActionEvent e){
 		repaint();
@@ -28,33 +24,32 @@ public class Board extends JPanel implements ActionListener{
 	
 	public void paint(Graphics g){
 		super.paint(g);
+		int width = 32;
+		int height = 32;
 		g.setColor(Color.red);
-		g.fillRect(player.getX(), player.getY(), 32, 32);
+		g.fillRect(player.getX(), player.getY(), width, height);
 	
-		for(int i = 0; i < 10; i++){
-			for(int j = 0; j < 10; j++){
-					g.setColor(Color.white);
-					if(maze[i][j].isRightOpen() == false){
-						g.setColor(Color.black);
-						g.drawLine((j*32)+32,i*32, (j*32)+32, (i*32)+32);
-					}
-					
-					//g.fillRect(i*32, j*32, 32, 32);
-					if(maze[i][j].isLeftOpen() == false){
-						g.setColor(Color.black);
-						g.drawLine(j*32,i*32, j*32, (i*32)+32);
-					}
-					if(maze[i][j].isUpOpen() == false){
-						g.setColor(Color.black);
-						g.drawLine(j*32,i*32, (j*32)+32, i*32);
-					}
-					if(maze[i][j].isDownOpen() == false){
-						g.setColor(Color.black);
-						g.drawLine((j*32),(i*32)+32, (j*32)+32, (i*32)+32);
-					}
+		for(int i = 0; i < MazePuzzle.MAZE_SIZE; i++){
+			for(int j = 0; j < MazePuzzle.MAZE_SIZE; j++){
+				g.setColor(Color.white);
+				if(maze[i][j].isRightOpen() == false){
+					g.setColor(Color.black);
+					g.drawLine((j*32)+32,i*32, (j*32)+32, (i*32)+32);
+				}
+				//g.fillRect(i*32, j*32, 32, 32);
+				if(maze[i][j].isLeftOpen() == false){
+					g.setColor(Color.black);
+					g.drawLine(j*32,i*32, j*32, (i*32)+32);
+				}
+				if(maze[i][j].isUpOpen() == false){
+					g.setColor(Color.black);
+					g.drawLine(j*32,i*32, (j*32)+32, i*32);
+				}
+				if(maze[i][j].isDownOpen() == false){
+					g.setColor(Color.black);
+					g.drawLine((j*32),(i*32)+32, (j*32)+32, (i*32)+32);
+				}
 			}
-			
-	
 		}	
 	}
 	
@@ -86,7 +81,6 @@ public class Board extends JPanel implements ActionListener{
 					player.changeY(0);
 				}
 			}
-			
 		}
 	}
 }

@@ -1,11 +1,10 @@
 import javax.swing.JFrame;
 
 public class Maze {
-
 	static JFrame frame;
     public static String title = "Maze Game";
-    public static int width = 350;
-    public static int height = 380;
+    public static int width = MazePuzzle.MAZE_SIZE * 32 + 40;
+    public static int height = MazePuzzle.MAZE_SIZE * 32 + 60;
 	
     public Maze(Position[][] maze){
 		frame = new JFrame();
@@ -14,8 +13,6 @@ public class Maze {
     	frame.setSize(width, height);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setLocationRelativeTo(null);
-  	
-    	frame.setVisible(true);
+  	   	frame.setVisible(true);
 	}
-
 }

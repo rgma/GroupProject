@@ -12,7 +12,7 @@ public class MazePuzzle {
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
-    public static final int MAZE_SIZE = 10;
+    public static final int MAZE_SIZE = 20;
     public static Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
     public static Difficulty difficulty;
 
@@ -93,12 +93,10 @@ public class MazePuzzle {
     //Returns the direction of an unvisited neighbour of given position
     public static Direction chooseUnvisitedNeighbour(Position currPos) {
         int rand;
-        int directionArrayCount = 0;
-        int movementweighting = 0;
+        int movementWeighting = 0;
         Random randGen = new Random();
         Direction directionTo = null;
         Direction directionFrom = null;
-        Direction directionArray[] = new Direction[4];
         List<Direction> directionList = new ArrayList<>();
 
         //Check top neighbour
@@ -138,11 +136,11 @@ public class MazePuzzle {
 
         //The difficulty affect the maze generation
         if (difficulty == Difficulty.EASY) {
-            movementweighting = 20;
+            movementWeighting = 20;
         } else if (difficulty == Difficulty.MEDIUM) {
-            movementweighting = 40;
+            movementWeighting = 40;
         } else if (difficulty == Difficulty.HARD) {
-            movementweighting = 60;
+            movementWeighting = 60;
         }
 
         if (directionList.size() != 0) {
@@ -151,7 +149,7 @@ public class MazePuzzle {
                 if (directionFrom == Direction.RIGHT || directionFrom == Direction.LEFT) {
                     //Favor movement in a right angle directions depending on the
                     //movementWeighting
-                    if (rand <= movementweighting) {
+                    if (rand <= movementWeighting) {
                         rand = randGen.nextInt(2);
                         if (rand == 0) {
                             if (directionList.contains(Direction.UP)) {
@@ -177,7 +175,7 @@ public class MazePuzzle {
                 } else if (directionFrom == Direction.DOWN || directionFrom == Direction.UP) {
                     //Favor movement in a right angle directions depending on the
                     //movementWeighting
-                    if (rand <= movementweighting) {
+                    if (rand <= movementWeighting) {
                         rand = randGen.nextInt(2);
                         if (rand == 0) {
                             if (directionList.contains(Direction.RIGHT)) {

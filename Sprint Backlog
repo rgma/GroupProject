@@ -1,6 +1,3 @@
-change current maze implementation to one more accomdating to a maze generation alogrithm. 
-https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Prim.27s_algorithm
-
-code simple maze generator
-
-Test
+test maze generation
+    bfs algorithm to check if the maze can be solved
+    test inner walls and border walls

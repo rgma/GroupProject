@@ -1,13 +1,9 @@
-generate a very basic solvable maze
-
-generate a very basic GUI for the users
-
-played using keyboard button input
-
+generate a very basic GUI for the users with a side panel for game information
+(timer, score, new game, restart, etc)
 
 Extensions
+    score system based on coin collection
 	multiplayer
 	time trial
 	animations
-	advanced maze generation
 	detailed GUI
