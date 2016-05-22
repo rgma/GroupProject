@@ -12,7 +12,7 @@ public class Board extends JPanel implements ActionListener{
 	public Board(Position[][] maze){
 		player = new Player();
 		this.maze = maze;
-		timer = new Timer(25, this);
+		timer = new Timer(5, this);
 		timer.start();
 		addKeyListener(new AL());
 		setFocusable(true);

@@ -17,7 +17,8 @@ public class MazePuzzle {
     public static Difficulty difficulty;
 
     public static void main (String args[]) {
-        difficulty = Difficulty.MEDIUM;
+    	PreGame p = new PreGame();
+        //difficulty = Difficulty.MEDIUM;
         maze = generateMaze();
         new Maze(maze);
     }
@@ -25,7 +26,7 @@ public class MazePuzzle {
     //Generates a maze using weighted randomised DFS. The starting and exit points are
     //always top left and bottom right respectively
     public static Position[][] generateMaze() {
-        List<Position> positionList = new ArrayList<>();
+        List<Position> positionList = new ArrayList<Position>();
         Direction direction;
         Position currPos;
         Random randGen = new Random();
@@ -97,7 +98,7 @@ public class MazePuzzle {
         Random randGen = new Random();
         Direction directionTo = null;
         Direction directionFrom = null;
-        List<Direction> directionList = new ArrayList<>();
+        List<Direction> directionList = new ArrayList<Direction>();
 
         //Check top neighbour
         if (currPos.posX > 0) {
