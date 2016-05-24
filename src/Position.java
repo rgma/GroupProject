@@ -6,6 +6,7 @@ public class Position {
     public int posX;
     public int posY;
     public boolean visited = false;
+    public boolean hasCoin = false;
 
     public Position(boolean rightOpen, boolean leftOpen, boolean downOpen,
                     boolean upOpen) {

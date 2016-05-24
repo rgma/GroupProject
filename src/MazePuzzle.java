@@ -12,9 +12,13 @@ public class MazePuzzle {
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
-    public static final int MAZE_SIZE = 20;
+    public static final int MAZE_SIZE = 25;
+    public static final int NUM_OF_COINS = 5;
     public static Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
     public static Difficulty difficulty;
+    public static List<Position> coinList;
+    public static int player1Score = 0;
+    public static int player2Score = 0;
 
     public static void main (String args[]) {
     	PreGame p = new PreGame();
@@ -30,7 +34,9 @@ public class MazePuzzle {
         Direction direction;
         Position currPos;
         Random randGen = new Random();
-        int rand;
+        int rand1;
+        int rand2;
+        int rand3;
 
         //Initalise maze positions
         for (int i = 0; i < MAZE_SIZE; i++) {
@@ -45,10 +51,10 @@ public class MazePuzzle {
         currPos = maze[0][0];
         currPos.visited = true;
 
-        rand = randGen.nextInt(2);
+        rand1 = randGen.nextInt(2);
 
         //Add right neighbour
-        if (rand == 0) {
+        if (rand1 == 0) {
             maze[0][0].rightOpen = true;
             maze[0][1].leftOpen = true;
             positionList.add(0, maze[0][1]);
@@ -85,8 +91,41 @@ public class MazePuzzle {
             }
         }
 
-        //Create exit position in bottom right
-        maze[MAZE_SIZE-1][MAZE_SIZE-1].downOpen = true;
+        //Create exit position in bottom middle
+        maze[MAZE_SIZE-1][MAZE_SIZE/2].downOpen = true;
+
+        //Create additional openings in inner positions for greater player choice
+        for (int i = 0; i < (3 * MAZE_SIZE)/ 2; i++) {
+            rand1 = randGen.nextInt(MAZE_SIZE-2) + 1;
+            rand2 = randGen.nextInt(MAZE_SIZE-2) + 1;
+            rand3 = randGen.nextInt(4);
+            if (rand3 == 0) {
+                maze[rand1][rand2].upOpen = true;
+                maze[rand1-1][rand2].downOpen = true;
+            } else if (rand3 == 1) {
+                maze[rand1][rand2].downOpen = true;
+                maze[rand1+1][rand2].upOpen = true;
+            } else if (rand3 == 2) {
+                maze[rand1][rand2].leftOpen = true;
+                maze[rand1][rand2-1].rightOpen = true;
+            } else {
+                maze[rand1][rand2].rightOpen = true;
+                maze[rand1][rand2+1].leftOpen = true;
+            }
+        }
+
+        //Generate coins
+        coinList = new ArrayList<>();
+        for (int i = 0; i < NUM_OF_COINS; i++) {
+            rand1 = randGen.nextInt(MAZE_SIZE);
+            rand2 = randGen.nextInt(MAZE_SIZE);
+            while (maze[rand1][rand2].hasCoin) {
+                rand1 = randGen.nextInt(MAZE_SIZE);
+                rand2 = randGen.nextInt(MAZE_SIZE);
+            }
+            maze[rand1][rand2].hasCoin = true;
+            coinList.add(maze[rand1][rand2]);
+        }
 
         return maze;
     }

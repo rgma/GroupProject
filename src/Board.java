@@ -12,7 +12,7 @@ public class Board extends JPanel implements ActionListener{
 	public Board(Position[][] maze){
 		player = new Player();
 		this.maze = maze;
-		timer = new Timer(5, this);
+		timer = new Timer(25, this);
 		timer.start();
 		addKeyListener(new AL());
 		setFocusable(true);
@@ -28,7 +28,13 @@ public class Board extends JPanel implements ActionListener{
 		int height = 32;
 		g.setColor(Color.red);
 		g.fillRect(player.getX(), player.getY(), width, height);
-	
+
+		//Paint coins
+		g.setColor(Color.yellow);
+		for (Position p : MazePuzzle.coinList) {
+			g.fillRect((p.posY*32)+(height)/4, (p.posX*32)+(width)/4, width/2, height/2);
+		}
+
 		for(int i = 0; i < MazePuzzle.MAZE_SIZE; i++){
 			for(int j = 0; j < MazePuzzle.MAZE_SIZE; j++){
 				g.setColor(Color.white);
@@ -52,7 +58,7 @@ public class Board extends JPanel implements ActionListener{
 			}
 		}	
 	}
-	
+
 	public class AL extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
 			int keyCode = e.getKeyCode();
@@ -80,6 +86,14 @@ public class Board extends JPanel implements ActionListener{
 					player.changeX(+32);
 					player.changeY(0);
 				}
+			}
+
+			//Player has moved to a position with a coin
+			if (maze[player.getYTile()][player.getXTile()].hasCoin) {
+				maze[player.getYTile()][player.getXTile()].hasCoin = false;
+				MazePuzzle.coinList.remove(maze[player.getYTile()][player.getXTile()]);
+				MazePuzzle.player1Score = MazePuzzle.player1Score + 500;
+				System.out.println(MazePuzzle.player1Score);
 			}
 		}
 	}
