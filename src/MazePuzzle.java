@@ -1,9 +1,12 @@
+import java.awt.CardLayout;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+
 
 public class MazePuzzle {
     public enum Difficulty {
@@ -12,7 +15,7 @@ public class MazePuzzle {
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
-    public static final int MAZE_SIZE = 25;
+    public static final int MAZE_SIZE = 20;
     public static final int NUM_OF_COINS = 5;
     public static Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
     public static Difficulty difficulty;
@@ -20,17 +23,22 @@ public class MazePuzzle {
     public static int player1Score = 0;
     public static int player2Score = 0;
 
-    public static void main (String args[]) {
-    	PreGame p = new PreGame();
-        //difficulty = Difficulty.MEDIUM;
+    public static void main (String args[]) throws IOException {
         maze = generateMaze();
-        new Maze(maze);
+       //playGame();
+        Maze c = new Maze(maze);
+        
+        
+
+		System.out.println("Game Over");
+
+
     }
 
     //Generates a maze using weighted randomised DFS. The starting and exit points are
     //always top left and bottom right respectively
     public static Position[][] generateMaze() {
-        List<Position> positionList = new ArrayList<Position>();
+        List<Position> positionList = new ArrayList<>();
         Direction direction;
         Position currPos;
         Random randGen = new Random();
@@ -173,7 +181,7 @@ public class MazePuzzle {
                 directionFrom = Direction.RIGHT;
             }
         }
-
+        difficulty = Difficulty.MEDIUM;
         //The difficulty affect the maze generation
         if (difficulty == Difficulty.EASY) {
             movementWeighting = 20;
@@ -287,7 +295,7 @@ public class MazePuzzle {
     }
 
     public static int[] movePlayer (int[] playerLocation,
-                                    Direction direction) {
+                                           Direction direction) {
         if (maze != null) {
             int x = playerLocation[0];
             int y = playerLocation[1];

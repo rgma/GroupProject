@@ -16,19 +16,19 @@ public class Position {
         this.leftOpen = leftOpen;
     }
 
-	public boolean isRightOpen() {
-		return rightOpen;
-	}
+    public boolean isRightOpen() {
+        return rightOpen;
+    }
 
-	public boolean isLeftOpen() {
-		return leftOpen;
-	}
+    public boolean isLeftOpen() {
+        return leftOpen;
+    }
 
-	public boolean isDownOpen() {
-		return downOpen;
-	}
+    public boolean isDownOpen() {
+        return downOpen;
+    }
 
-	public boolean isUpOpen() {
-		return upOpen;
-	}
+    public boolean isUpOpen() {
+        return upOpen;
+    }
 }
