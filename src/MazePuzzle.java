@@ -16,7 +16,9 @@ public class MazePuzzle {
         UP, DOWN, LEFT, RIGHT
     }
     public static final int MAZE_SIZE = 20;
+    public static int mazeSize = MAZE_SIZE;
     public static final int NUM_OF_COINS = 5;
+    public static int numOfCoins;
     public static Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
     public static Difficulty difficulty;
     public static List<Position> coinList;
@@ -27,9 +29,6 @@ public class MazePuzzle {
         maze = generateMaze();
        //playGame();
         Maze c = new Maze(maze);
-        
-        
-
 		System.out.println("Game Over");
 
 
@@ -124,7 +123,14 @@ public class MazePuzzle {
 
         //Generate coins
         coinList = new ArrayList<>();
-        for (int i = 0; i < NUM_OF_COINS; i++) {
+        if (mazeSize == 9) {
+            numOfCoins = 3;
+        } else if (mazeSize == 15) {
+            numOfCoins = 4;
+        } else if (mazeSize == 21) {
+            numOfCoins =5;
+        }
+        for (int i = 0; i < numOfCoins; i++) {
             rand1 = randGen.nextInt(MAZE_SIZE);
             rand2 = randGen.nextInt(MAZE_SIZE);
             while (maze[rand1][rand2].hasCoin) {

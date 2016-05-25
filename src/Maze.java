@@ -33,8 +33,8 @@ public class Maze{
 
 	static JFrame frame;
     public static String title = "Maze Game";
-    public static int width = 800;
-    public static int height = 600;
+    public static int width = 1024;
+    public static int height = 768;
  	JButton singleButton = new JButton("OK");
     Board board;
 

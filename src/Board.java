@@ -203,7 +203,9 @@ public class Board extends JPanel implements ActionListener{
 			this.add(menu);
 		}
 		if(mode.equals("singlePlayer")){
+
 			this.add(menu);
+
 			singlePlayer(g);
 		}	
 		else if(mode.equals("multiPlayer")){
@@ -211,11 +213,7 @@ public class Board extends JPanel implements ActionListener{
 		multiPlayer(g);
 		}
 
-		//Paint coins
-		g.setColor(Color.yellow);
-		for (Position p : MazePuzzle.coinList) {
-			g.fillRect((p.posY*tileSize)+(tileSize)/4, (p.posX*tileSize)+(tileSize)/4, width/2, height/2);
-		}
+
 
 	}
 	
@@ -262,6 +260,7 @@ public class Board extends JPanel implements ActionListener{
 	
 		if(gameDone == false){
 		background(g);
+
 		System.out.println(new DecimalFormat("#0").format(timeAvailable - (tDelta / 1000.0)));
 		g.setFont(new Font("Press Start 2P", Font.PLAIN, 15)); 
 		String numberAsString = String.valueOf(score);
