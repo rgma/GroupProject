@@ -86,14 +86,14 @@ public class Player {
 		face = "right";
 	}
 	
-	public void changeX(int x){
+	public void changeX(int x, int tileSize){
 		this.x = this.x + x;
-		this.xTile = this.xTile + (x/25);
+		this.xTile = this.xTile + (x/tileSize);
 	}
 	
-	public void changeY(int y){
+	public void changeY(int y, int tileSize){
 		this.y = this.y + y;
-		this.yTile = this.yTile + (y/25);
+		this.yTile = this.yTile + (y/tileSize);
 	}
 	
 	public String getFace(){

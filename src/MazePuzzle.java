@@ -15,7 +15,7 @@ public class MazePuzzle {
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
-    public static final int MAZE_SIZE = 20;
+    public static int MAZE_SIZE = 15;
     public static int mazeSize = MAZE_SIZE;
     public static final int NUM_OF_COINS = 5;
     public static int numOfCoins;
@@ -370,5 +370,9 @@ public class MazePuzzle {
             }
             System.out.println("+");
         }
+    }
+    
+    public int getMazeSize(){
+    	return MAZE_SIZE;
     }
 }
