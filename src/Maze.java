@@ -50,4 +50,3 @@ public class Maze{
     	frame.setVisible(true);
     }
 }
-

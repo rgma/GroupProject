@@ -19,17 +19,13 @@ public class Player {
 	Image get;
 	String face;
 	public Player(int playerNumber) throws IOException{
+		x = 0;
+		y = 0;
+		xTile = 0;
+		yTile = 0;
 		if(playerNumber == 1){
-			x = 0;
-			y = 0;
-			xTile = 0;
-			yTile = 0;
 		create1();
 		} else {
-			x = 0;
-			y = 0;
-			xTile = 0;
-			yTile = 0;
 		create2();	
 		}
 	}
