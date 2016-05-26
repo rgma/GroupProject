@@ -42,21 +42,21 @@ public class GameOverMenu extends JFrame {
         winner.setAlignmentX(Component.CENTER_ALIGNMENT);
         winner.setFont(new Font("Serif", Font.BOLD, 18));
         winner.setHorizontalAlignment(SwingConstants.CENTER);
-        winner.setMaximumSize(new Dimension(175,30));
+        winner.setMaximumSize(new Dimension(175, 30));
         winner.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        JLabel player1Score = new JLabel(""+ MazePuzzle.player1Score);
+        JLabel player1Score = new JLabel("" + MazePuzzle.player1Score);
         player1Score.setAlignmentX(Component.CENTER_ALIGNMENT);
         player1Score.setFont(new Font("Serif", Font.BOLD, 18));
         player1Score.setHorizontalAlignment(SwingConstants.CENTER);
-        player1Score.setMaximumSize(new Dimension(175,30));
+        player1Score.setMaximumSize(new Dimension(175, 30));
         player1Score.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        JLabel player2Score = new JLabel(""+ MazePuzzle.player2Score);
+        JLabel player2Score = new JLabel("" + MazePuzzle.player2Score);
         player2Score.setAlignmentX(Component.CENTER_ALIGNMENT);
         player2Score.setFont(new Font("Serif", Font.BOLD, 18));
         player2Score.setHorizontalAlignment(SwingConstants.CENTER);
-        player2Score.setMaximumSize(new Dimension(175,30));
+        player2Score.setMaximumSize(new Dimension(175, 30));
         player2Score.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
         JPanel displayPanel = new JPanel();
@@ -108,18 +108,16 @@ public class GameOverMenu extends JFrame {
         this.setVisible(true);
 
 
-        settingsButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
+        settingsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
 
                 NewGameMenu newGame = new NewGameMenu();
                 dispose();
             }
         });
 
-        replayGameButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
+        replayGameButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 try {
                     //MazePuzzle.maze = MazePuzzle.generateMaze();
                     Maze newMaze = new Maze(MazePuzzle.maze);

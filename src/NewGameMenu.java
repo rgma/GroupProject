@@ -18,54 +18,54 @@ public class NewGameMenu extends JFrame implements ActionListener {
 
         this.getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         try {
-		     GraphicsEnvironment ge = 
-		         GraphicsEnvironment.getLocalGraphicsEnvironment();
-		     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/PressStart2P.ttf")));
-		} catch (IOException|FontFormatException e){
-			
-		}
+            GraphicsEnvironment ge =
+                    GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/PressStart2P.ttf")));
+        } catch (IOException | FontFormatException e) {
+
+        }
         final JButton closeButton = new JButton("Close");
         closeButton.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
-		closeButton.setOpaque(false);
-		closeButton.setContentAreaFilled(false);
-        closeButton.setSize(new Dimension(85,25));
-        closeButton.setMaximumSize(new Dimension(85,25));
-		//multiPlayer.setBorderPainted(false);
-		closeButton.setFocusPainted(false);
-		closeButton.setForeground(Color.BLACK);
-		//closeButton.setBorderPainted(false);
-		closeButton.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		        closeButton.setForeground(Color.RED);
-		    }
+        closeButton.setOpaque(false);
+        closeButton.setContentAreaFilled(false);
+        closeButton.setSize(new Dimension(85, 25));
+        closeButton.setMaximumSize(new Dimension(85, 25));
+        //multiPlayer.setBorderPainted(false);
+        closeButton.setFocusPainted(false);
+        closeButton.setForeground(Color.BLACK);
+        //closeButton.setBorderPainted(false);
+        closeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeButton.setForeground(Color.RED);
+            }
 
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		        closeButton.setForeground(Color.BLACK);
-		    }
-		});
-	    closeButton.setAlignmentY(Component.CENTER_ALIGNMENT);
-	 
-		final JButton startButton = new JButton("Start");
-	    startButton.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
-		startButton.setOpaque(false);
-		startButton.setContentAreaFilled(false);
-        startButton.setSize(new Dimension(85,25));
-        startButton.setMaximumSize(new Dimension(85,25));
-		//multiPlayer.setBorderPainted(false);
-		startButton.setFocusPainted(false);
-		startButton.setForeground(Color.BLACK);
-		//startButton.setBorderPainted(false);
-		startButton.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		        startButton.setForeground(Color.RED);
-		    }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeButton.setForeground(Color.BLACK);
+            }
+        });
+        closeButton.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		        startButton.setForeground(Color.BLACK);
-		    }
-		});
-		startButton.setAlignmentY(Component.CENTER_ALIGNMENT);
-	 
+        final JButton startButton = new JButton("Start");
+        startButton.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
+        startButton.setOpaque(false);
+        startButton.setContentAreaFilled(false);
+        startButton.setSize(new Dimension(85, 25));
+        startButton.setMaximumSize(new Dimension(85, 25));
+        //multiPlayer.setBorderPainted(false);
+        startButton.setFocusPainted(false);
+        startButton.setForeground(Color.BLACK);
+        //startButton.setBorderPainted(false);
+        startButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                startButton.setForeground(Color.RED);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                startButton.setForeground(Color.BLACK);
+            }
+        });
+        startButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+
         JLabel numOfPlayers = new JLabel("NUMBER OF PLAYERS");
         numOfPlayers.setAlignmentX(Component.CENTER_ALIGNMENT);
         numOfPlayers.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
@@ -116,12 +116,9 @@ public class NewGameMenu extends JFrame implements ActionListener {
         setTimeBox.addActionListener(this);
         setTimeBox.setEditable(true);
         ComboBoxEditor editor = setTimeBox.getEditor();
-        JTextField textField = (JTextField)editor.getEditorComponent();
+        JTextField textField = (JTextField) editor.getEditorComponent();
         textField.setAlignmentX(Component.CENTER_ALIGNMENT);
         textField.setHorizontalAlignment(JLabel.CENTER);
-
-
-
 
 
         JPanel optionPanel = new JPanel();
@@ -154,7 +151,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
 
         JPanel selectionPanel = new JPanel();
         selectionPanel.setLayout(new BoxLayout(selectionPanel, BoxLayout.X_AXIS));
-       // selectionPanel.setBackground(Color.red); //debug
+        // selectionPanel.setBackground(Color.red); //debug
         selectionPanel.setVisible(true);
         selectionPanel.setPreferredSize(new Dimension(250, 40));
         selectionPanel.setMaximumSize(new Dimension(250, 40));
@@ -177,16 +174,14 @@ public class NewGameMenu extends JFrame implements ActionListener {
         this.setVisible(true);
 
 
-        closeButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
 
-        startButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 try {
                     MazePuzzle.maze = MazePuzzle.generateMaze();
                     Maze newMaze = new Maze(MazePuzzle.maze);
@@ -222,14 +217,14 @@ public class NewGameMenu extends JFrame implements ActionListener {
             if (newSelection.contains("SMALL")) {
                 //MazePuzzle.MAZE_SIZE = 9;
                 MazePuzzle.mazeSize = 9;
-                
+
             } else if (newSelection.contains("MEDIUM")) {
                 //MazePuzzle.MAZE_SIZE = 15;
                 MazePuzzle.mazeSize = 15;
-                
+
             } else {
-            	//MazePuzzle.MAZE_SIZE = 21;
-            	MazePuzzle.mazeSize = 21;
+                //MazePuzzle.MAZE_SIZE = 21;
+                MazePuzzle.mazeSize = 21;
             }
 
             System.out.println("Maze size set: ");
@@ -246,11 +241,11 @@ public class NewGameMenu extends JFrame implements ActionListener {
             System.out.println("Difficulty set: ");
             System.out.println(MazePuzzle.difficulty);
         } else if (cb.getName().contains("Timer Setting")) {
-        	int time = Integer.parseInt(newSelection);
-        	if (time > 0) {
+            int time = Integer.parseInt(newSelection);
+            if (time > 0) {
                 if (time <= 999) {
                     MazePuzzle.time = time;
-                //Set max time
+                    //Set max time
                 } else {
                     MazePuzzle.time = 999;
 

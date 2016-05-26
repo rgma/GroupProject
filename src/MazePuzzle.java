@@ -7,14 +7,15 @@ import java.util.List;
 import java.util.Random;
 
 
-
 public class MazePuzzle {
     public enum Difficulty {
         EASY, MEDIUM, HARD
     }
+
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
+
     public static int MAZE_SIZE = 9;
     public static int mazeSize = MAZE_SIZE;
     public static final int NUM_OF_COINS = 5;
@@ -27,8 +28,8 @@ public class MazePuzzle {
     public static int player1Score = 0;
     public static int player2Score = 0;
     public static int time = 40;
-    
-    public static void main (String args[]) throws IOException {
+
+    public static void main(String args[]) throws IOException {
         //maze = generateMaze();
         NewGameMenu newGame = new NewGameMenu();
         //Maze c = new Maze(maze);
@@ -101,25 +102,25 @@ public class MazePuzzle {
         }
 
         //Create exit position in bottom middle
-        maze[mazeSize-1][mazeSize/2].downOpen = true;
+        maze[mazeSize - 1][mazeSize / 2].downOpen = true;
 
         //Create additional openings in inner positions for greater player choice
-        for (int i = 0; i < (3 * mazeSize)/ 2; i++) {
-            rand1 = randGen.nextInt(mazeSize-2) + 1;
-            rand2 = randGen.nextInt(mazeSize-2) + 1;
+        for (int i = 0; i < (3 * mazeSize) / 2; i++) {
+            rand1 = randGen.nextInt(mazeSize - 2) + 1;
+            rand2 = randGen.nextInt(mazeSize - 2) + 1;
             rand3 = randGen.nextInt(4);
             if (rand3 == 0) {
                 maze[rand1][rand2].upOpen = true;
-                maze[rand1-1][rand2].downOpen = true;
+                maze[rand1 - 1][rand2].downOpen = true;
             } else if (rand3 == 1) {
                 maze[rand1][rand2].downOpen = true;
-                maze[rand1+1][rand2].upOpen = true;
+                maze[rand1 + 1][rand2].upOpen = true;
             } else if (rand3 == 2) {
                 maze[rand1][rand2].leftOpen = true;
-                maze[rand1][rand2-1].rightOpen = true;
+                maze[rand1][rand2 - 1].rightOpen = true;
             } else {
                 maze[rand1][rand2].rightOpen = true;
-                maze[rand1][rand2+1].leftOpen = true;
+                maze[rand1][rand2 + 1].leftOpen = true;
             }
         }
 
@@ -130,7 +131,7 @@ public class MazePuzzle {
         } else if (mazeSize == 15) {
             numOfCoins = 4;
         } else if (mazeSize == 21) {
-            numOfCoins =5;
+            numOfCoins = 5;
         }
         for (int i = 0; i < numOfCoins; i++) {
             rand1 = randGen.nextInt(mazeSize);
@@ -160,7 +161,7 @@ public class MazePuzzle {
             //Find a possible movement direction
             if (!maze[currPos.posX - 1][currPos.posY].visited) {
                 directionList.add(Direction.UP);
-            } else if (maze[currPos.posX][currPos.posY].upOpen){
+            } else if (maze[currPos.posX][currPos.posY].upOpen) {
                 directionFrom = Direction.UP;
             }
         }
@@ -169,7 +170,7 @@ public class MazePuzzle {
             //Find a possible movement direction
             if (!maze[currPos.posX + 1][currPos.posY].visited) {
                 directionList.add(Direction.DOWN);
-            } else if (maze[currPos.posX][currPos.posY].downOpen){
+            } else if (maze[currPos.posX][currPos.posY].downOpen) {
                 directionFrom = Direction.DOWN;
             }
         }
@@ -177,7 +178,7 @@ public class MazePuzzle {
         if (currPos.posY > 0) {
             if (!maze[currPos.posX][currPos.posY - 1].visited) {
                 directionList.add(Direction.LEFT);
-            } else if (maze[currPos.posX][currPos.posY].leftOpen){
+            } else if (maze[currPos.posX][currPos.posY].leftOpen) {
                 directionFrom = Direction.LEFT;
             }
         }
@@ -185,7 +186,7 @@ public class MazePuzzle {
         if (currPos.posY < (mazeSize - 1)) {
             if (!maze[currPos.posX][currPos.posY + 1].visited) {
                 directionList.add(Direction.RIGHT);
-            } else if (maze[currPos.posX][currPos.posY].rightOpen){
+            } else if (maze[currPos.posX][currPos.posY].rightOpen) {
                 directionFrom = Direction.RIGHT;
             }
         }
@@ -302,8 +303,8 @@ public class MazePuzzle {
         }
     }
 
-    public static int[] movePlayer (int[] playerLocation,
-                                           Direction direction) {
+    public static int[] movePlayer(int[] playerLocation,
+                                   Direction direction) {
         if (maze != null) {
             int x = playerLocation[0];
             int y = playerLocation[1];
@@ -373,18 +374,20 @@ public class MazePuzzle {
             System.out.println("+");
         }
     }
-    
-    public int getMazeSize(){
-    	return mazeSize;
+
+    public int getMazeSize() {
+        return mazeSize;
     }
-    
-    public void changeToEasy(){
-    	difficulty = Difficulty.EASY;	
+
+    public void changeToEasy() {
+        difficulty = Difficulty.EASY;
     }
-    public void changeToMedium(){
-    	difficulty = Difficulty.MEDIUM;
+
+    public void changeToMedium() {
+        difficulty = Difficulty.MEDIUM;
     }
-    public void changeToHard(){
-    	difficulty = Difficulty.HARD;
+
+    public void changeToHard() {
+        difficulty = Difficulty.HARD;
     }
 }
