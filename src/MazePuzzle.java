@@ -21,17 +21,16 @@ public class MazePuzzle {
     public static int numOfCoins;
     public static Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
     public static Difficulty difficulty;
+    public static int winner = 0;
+    public static int numPlayers = 1;
     public static List<Position> coinList;
     public static int player1Score = 0;
     public static int player2Score = 0;
 
     public static void main (String args[]) throws IOException {
         maze = generateMaze();
-       //playGame();
-        Maze c = new Maze(maze);
-		System.out.println("Game Over");
-
-
+        NewGameMenu newGame = new NewGameMenu();
+        //Maze c = new Maze(maze);
     }
 
     //Generates a maze using weighted randomised DFS. The starting and exit points are
