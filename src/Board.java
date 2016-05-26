@@ -59,6 +59,7 @@ public class Board extends JPanel implements ActionListener{
 	int finishY;
 	Image backgroundMain;
 	MazePuzzle mazePuzzle;
+	long tDelta;
 	public Board(Position[][] maze) throws IOException{
 		this.setLayout(null);
 		addKeyListener(new AL());
@@ -249,73 +250,50 @@ public class Board extends JPanel implements ActionListener{
 		}
 	}
 	
-	public void singlePlayer(Graphics g){
+	public void singlePlayer(Graphics g) {
 		long tEnd = System.currentTimeMillis();
-		long tDelta = tEnd - tStart;
+		tDelta = tEnd - tStart;
 		g.setColor(Color.BLACK);
-		
-		
-		if(timeAvailable - (tDelta / 1000.0) <= 0){
+
+
+		if (timeAvailable - (tDelta / 1000.0) <= 0) {
 			background(g);
 			drawMaze(g);
-			g.setFont(new Font("Press Start 2P", Font.PLAIN, 80)); 
+			g.setFont(new Font("Press Start 2P", Font.PLAIN, 80));
 			g.setColor(Color.BLACK);
-			
-			g.drawString("GAMEOVER", side+30, 768/2);
-		
-			g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
-			String numberAsString = String.valueOf(score);
-			g.drawString("PLAYER 1 SCORE ", 700 + (side * 2), 50);
-			g.drawString(numberAsString, 700 + (side * 2), 100);
-			
-			g.drawString("TIME LEFT: ", 700 + (side * 2), 150);
-			numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
-			g.setFont(new Font("Press Start 2P", Font.PLAIN, 130)); 
-			g.drawString("0", 700 + (side * 2) , 300);
+
+			g.drawString("GAMEOVER", side + 30, 768 / 2);
+
+
 
 			gameDone = true;
 		}
-	
-		if(gameDone == false){
-			if(maze[player.getYTile()][player.getXTile()].hasCoin == true){
+
+		if (gameDone == false) {
+			if (maze[player.getYTile()][player.getXTile()].hasCoin == true) {
 				score++;
 				maze[player.getYTile()][player.getXTile()].hasCoin = false;
 			}
-		background(g);
-		g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
-		String numberAsString = String.valueOf(score);
-		g.drawString("PLAYER 1 SCORE ", 700 + (side * 2), 50);
-		g.drawString(numberAsString, 700 + (side * 2), 100);
-		
-		g.drawString("TIME LEFT: ", 700 + (side * 2), 150);
-		
-		
-		numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
-		if(timeAvailable > 1000){
-		g.setFont(new Font("Press Start 2P", Font.PLAIN, 50)); 
-		} else if (timeAvailable > 100){
-		g.setFont(new Font("Press Start 2P", Font.PLAIN, 90)); 
-		} else {
-		g.setFont(new Font("Press Start 2P", Font.PLAIN, 130)); 
-		}
-		g.drawString(numberAsString, 700 + (side * 2) , 300);
-		String timeString = new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0)));
-		int time = Integer.parseInt(timeString);
-		endStarImage = endStarImage.getScaledInstance(tileSize - charX, tileSize  - charX, Image.SCALE_DEFAULT);
-		if(time % 2 == 0){
-			endStarImage = endStar1; 
-		}else{
-			endStarImage = endStar2; 
-		}
-		drawCharacter(player, g);
+			background(g);
+
+
+			String timeString = new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0)));
+			int time = Integer.parseInt(timeString);
+			endStarImage = endStarImage.getScaledInstance(tileSize - charX, tileSize - charX, Image.SCALE_DEFAULT);
+			if (time % 2 == 0) {
+				endStarImage = endStar1;
+			} else {
+				endStarImage = endStar2;
+			}
+			drawCharacter(player, g);
 			//g.setColor(Color.red);
 			//g.fillRect (side+player.getX(), player.getY(), tileSize, tileSize);  
-		drawMaze(g);
+			drawMaze(g);
 
-			if(playerLeftMaze == true){
+			if (playerLeftMaze == true) {
 				playerLeftMaze = false;
 				try {
-					timeSet = timeSet/2;
+					timeSet = timeSet / 2;
 					timeAvailable = timeAvailable + timeSet;
 					init();
 				} catch (IOException e) {
@@ -323,11 +301,66 @@ public class Board extends JPanel implements ActionListener{
 					e.printStackTrace();
 				}
 			}
-		
+
 		}
-		
-	
+		printGameInfo(g);
 	}
+
+	public void printGameInfo (Graphics g) {
+		g.setColor(Color.BLACK);
+
+		g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
+		String numberAsString = String.valueOf(score);
+		g.drawString("PLAYER 1 SCORE ", 700 + (side * 2), 420);
+		g.drawString(numberAsString, 700 + (side * 2), 460);
+
+		g.drawString("TIME LEFT", 750 + (side * 2), 40);
+
+		numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
+		System.out.println(timeAvailable - (tDelta / 1000.0));
+		if (Integer.parseInt(numberAsString) <= 0) {
+			g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
+			g.drawString("0", 800 + (side * 2) , 150);
+		} else if(Integer.parseInt(numberAsString) < 10){
+			g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
+			g.drawString(numberAsString, 800 + (side * 2) , 150);
+		} else if (Integer.parseInt(numberAsString) < 100){
+			g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
+			g.drawString(numberAsString, 765 + (side * 2) , 150);
+		} else {
+			g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
+			g.drawString(numberAsString, 730 + (side * 2) , 150);
+		}
+
+
+		g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
+		g.drawString("MAZE SIZE", 745 + (side * 2), 320);
+		if (MazePuzzle.mazeSize == 15 || MazePuzzle.mazeSize == 21) {
+			g.drawString("" + MazePuzzle.mazeSize + " X " + MazePuzzle.mazeSize, 770 + (side * 2), 360);
+
+		} else {
+			g.drawString("" + MazePuzzle.mazeSize + " X " + MazePuzzle.mazeSize, 780 + (side * 2), 360);
+
+		}
+
+		g.drawString("DIFFICULTY", 740 + (side * 2), 220);
+		if (MazePuzzle.difficulty == MazePuzzle.Difficulty.EASY) {
+			g.drawString("EASY", 790 + (side * 2), 260);
+		} else if (MazePuzzle.difficulty == MazePuzzle.Difficulty.MEDIUM) {
+			g.drawString("NORMAL", 775 + (side * 2), 260);
+		} else if (MazePuzzle.difficulty == MazePuzzle.Difficulty.HARD) {
+			g.drawString("HARD", 790 + (side * 2), 260);
+		}
+
+		if (mode.contains("multiPlayer")) {
+			g.drawString("PLAYER 2 SCORE ", 700 + (side * 2), 500);
+			numberAsString = String.valueOf(score2);
+			g.drawString(numberAsString, 700 + (side * 2), 540);
+			g.setFont(new Font("Press Start 2P", Font.PLAIN, 80));
+		}
+	}
+
+
 	public void multiPlayer(Graphics g){
 		long tEnd = System.currentTimeMillis();
 		long tDelta = tEnd - tStart;
@@ -350,35 +383,13 @@ public class Board extends JPanel implements ActionListener{
 				}
 			}
 			drawMaze(g);
-			g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
-			g.setColor(Color.BLACK);
-			
-			String numberAsString = String.valueOf(score);
-			g.drawString("PLAYER 1 SCORE ", 700 + (side * 2), 50);
-			g.drawString(numberAsString, 700 + (side * 2), 100);
-			
-			g.drawString("PLAYER 2 SCORE ", 700 + (side * 2), 150);
-			numberAsString = String.valueOf(score2);
-			g.drawString(numberAsString, 700 + (side * 2), 200);
-
 		}else {
 			drawMaze(g);
-			g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
 			g.setColor(Color.BLACK);
-			
-			String numberAsString = String.valueOf(score);
-			g.drawString("PLAYER 1 SCORE ", 700 + (side * 2), 50);
-			g.drawString(numberAsString, 700 + (side * 2), 100);
-			
-			g.drawString("PLAYER 2 SCORE ", 700 + (side * 2), 150);
-			numberAsString = String.valueOf(score2);
-			g.drawString(numberAsString, 700 + (side * 2), 200);
-			g.setFont(new Font("Press Start 2P", Font.PLAIN, 80)); 
+
+			String timeString = new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0)));
+			int time = Integer.parseInt(timeString);
 			if(score > score2){
-				g.setFont(new Font("Press Start 2P", Font.PLAIN, 50)); 
-				g.drawString("PLAYER 1 WINS", side+25, 768/2);
-				String timeString = new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0)));
-				int time = Integer.parseInt(timeString);
 				if(time % 2 == 0){
 				player.changeFront();
 				drawCharacter(player, g);
@@ -386,12 +397,11 @@ public class Board extends JPanel implements ActionListener{
 				player.changeWin();
 				drawCharacter(player, g);
 				}
+				g.setFont(new Font("Press Start 2P", Font.PLAIN, 50));
+				g.drawString("PLAYER 1 WINS", side+25, 768/2);
 			}
 			if(score2 > score){
-				g.setFont(new Font("Press Start 2P", Font.PLAIN, 50)); 
-				g.drawString("PLAYER 2 WINS", side+25, 768/2);
-				String timeString = new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0)));
-				int time = Integer.parseInt(timeString);
+
 				if(time % 2 == 0){
 					player2.changeFront();
 					drawCharacter(player2, g);
@@ -399,6 +409,8 @@ public class Board extends JPanel implements ActionListener{
 					player2.changeWin();
 					drawCharacter(player2, g);
 					}
+				g.setFont(new Font("Press Start 2P", Font.PLAIN, 50));
+				g.drawString("PLAYER 2 WINS", side+25, 768/2);
 			}
 			if(score2 == score){
 				g.setFont(new Font("Press Start 2P", Font.PLAIN, 80)); 
@@ -407,7 +419,8 @@ public class Board extends JPanel implements ActionListener{
 			}
 			g.drawString("", side+12, 768/2);
 		}
-		
+
+		printGameInfo(g);
 		
 	}
 	

@@ -247,14 +247,15 @@ public class NewGameMenu extends JFrame implements ActionListener {
             System.out.println(MazePuzzle.difficulty);
         } else if (cb.getName().contains("Timer Setting")) {
         	int time = Integer.parseInt(newSelection);
-        	if (time == 40) {
-                MazePuzzle.time = 40;
-            } else if (time == 60) {
-                MazePuzzle.time = 60;
-            } else {
-            	MazePuzzle.time = 80;
+        	if (time > 0) {
+                if (time <= 999) {
+                    MazePuzzle.time = time;
+                //Set max time
+                } else {
+                    MazePuzzle.time = 999;
+
+                }
             }
-            MazePuzzle.time = time;
             System.out.println("Timer set: ");
             System.out.println(time);
         }
