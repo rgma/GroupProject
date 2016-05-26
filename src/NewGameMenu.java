@@ -33,10 +33,14 @@ public class NewGameMenu extends JFrame implements ActionListener {
         gameDiff.setAlignmentX(Component.CENTER_ALIGNMENT);
         gameDiff.setFont(new Font("Serif", Font.BOLD, 18));
 
+        JLabel setTime = new JLabel("TIMER IN SECONDS");
+        setTime.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setTime.setFont(new Font("Serif", Font.BOLD, 18));
 
         String[] numPlayersArr = new String[]{"1 PLAYER", "2 PLAYER"};
         String[] gameDiffArr = new String[]{"EASY", "NORMAL", "HARD"};
         String[] sizeOfMazeArr = new String[]{"SMALL [9 X 9]", "MEDIUM [15 X 15]", "LARGE [21 X 21]"};
+        String[] setTimeArr = new String[]{"40", "60", "90"};
 
         JComboBox<String> playerBox = new JComboBox<>(numPlayersArr);
         playerBox.setMaximumSize(new Dimension(200, 25));
@@ -59,13 +63,28 @@ public class NewGameMenu extends JFrame implements ActionListener {
         sizeOfMazeBox.setName("Maze Size Setting");
         sizeOfMazeBox.addActionListener(this);
 
-        JPanel optionPanel = new JPanel();
+        JComboBox<String> setTimeBox = new JComboBox<>(setTimeArr);
+        setTimeBox.setMaximumSize(new Dimension(200, 25));
+        setTimeBox.setFont(new Font("Serif", Font.BOLD, 16));
+        ((JLabel) setTimeBox.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        setTimeBox.setName("Timer Setting");
+        setTimeBox.addActionListener(this);
+        setTimeBox.setEditable(true);
+        ComboBoxEditor editor = setTimeBox.getEditor();
+        JTextField textField = (JTextField)editor.getEditorComponent();
+        textField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        textField.setHorizontalAlignment(JLabel.CENTER);
 
+
+
+
+
+        JPanel optionPanel = new JPanel();
 
         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
         optionPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-        optionPanel.setPreferredSize(new Dimension(250, 300));
-        optionPanel.setMaximumSize(new Dimension(250, 300));
+        optionPanel.setPreferredSize(new Dimension(250, 365));
+        optionPanel.setMaximumSize(new Dimension(250, 365));
         //optionPanel.setBackground(Color.DARK_GRAY); //debug
         optionPanel.setVisible(true);
 
@@ -81,6 +100,10 @@ public class NewGameMenu extends JFrame implements ActionListener {
         optionPanel.add(gameDiffBox);
         optionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         optionPanel.add(gameDiff);
+        optionPanel.add(Box.createRigidArea(new Dimension(0, 25)));
+        optionPanel.add(setTimeBox);
+        optionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        optionPanel.add(setTime);
 
         this.getContentPane().add(optionPanel);
 
@@ -99,7 +122,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
         this.getContentPane().add(selectionPanel);
 
         this.setTitle("New Game");
-        this.setPreferredSize(new Dimension(250, 400));
+        this.setPreferredSize(new Dimension(250, 450));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -172,6 +195,12 @@ public class NewGameMenu extends JFrame implements ActionListener {
             }
             System.out.println("Difficulty set: ");
             System.out.println(MazePuzzle.difficulty);
+        } else if (cb.getName().contains("Timer Setting")) {
+
+            //here setTime?  = Integer.parseInt(newSelection);
+
+            System.out.println("Timer set: ");
+           // System.out.println(MazePuzzle.difficulty);
         }
     }
 }
