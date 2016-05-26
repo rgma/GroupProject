@@ -151,6 +151,11 @@ public class NewGameMenu extends JFrame implements ActionListener {
                 }
             }
         });
+
+        //Set game default values
+        MazePuzzle.difficulty = MazePuzzle.Difficulty.EASY;
+        MazePuzzle.mazeSize = 9;
+        MazePuzzle.numPlayers = 1;
     }
 
     @Override
@@ -179,7 +184,6 @@ public class NewGameMenu extends JFrame implements ActionListener {
             } else {
             	//MazePuzzle.MAZE_SIZE = 21;
             	MazePuzzle.mazeSize = 21;
-                
             }
 
             System.out.println("Maze size set: ");
