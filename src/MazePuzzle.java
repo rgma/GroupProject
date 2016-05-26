@@ -189,7 +189,7 @@ public class MazePuzzle {
                 directionFrom = Direction.RIGHT;
             }
         }
-        difficulty = Difficulty.MEDIUM;
+
         //The difficulty affect the maze generation
         if (difficulty == Difficulty.EASY) {
             movementWeighting = 20;
