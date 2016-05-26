@@ -28,6 +28,8 @@ public class NewGameMenu extends JFrame implements ActionListener {
         closeButton.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
 		closeButton.setOpaque(false);
 		closeButton.setContentAreaFilled(false);
+        closeButton.setSize(new Dimension(85,25));
+        closeButton.setMaximumSize(new Dimension(85,25));
 		//multiPlayer.setBorderPainted(false);
 		closeButton.setFocusPainted(false);
 		closeButton.setForeground(Color.BLACK);
@@ -41,12 +43,14 @@ public class NewGameMenu extends JFrame implements ActionListener {
 		        closeButton.setForeground(Color.BLACK);
 		    }
 		});
-	    closeButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+	    closeButton.setAlignmentY(Component.CENTER_ALIGNMENT);
 	 
 		final JButton startButton = new JButton("Start");
 	    startButton.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
 		startButton.setOpaque(false);
 		startButton.setContentAreaFilled(false);
+        startButton.setSize(new Dimension(85,25));
+        startButton.setMaximumSize(new Dimension(85,25));
 		//multiPlayer.setBorderPainted(false);
 		startButton.setFocusPainted(false);
 		startButton.setForeground(Color.BLACK);
@@ -60,7 +64,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
 		        startButton.setForeground(Color.BLACK);
 		    }
 		});
-		startButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		startButton.setAlignmentY(Component.CENTER_ALIGNMENT);
 	 
         JLabel numOfPlayers = new JLabel("NUMBER OF PLAYERS");
         numOfPlayers.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -124,8 +128,8 @@ public class NewGameMenu extends JFrame implements ActionListener {
 
         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
         optionPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-        optionPanel.setPreferredSize(new Dimension(250, 365));
-        optionPanel.setMaximumSize(new Dimension(250, 365));
+        optionPanel.setPreferredSize(new Dimension(250, 330));
+        optionPanel.setMaximumSize(new Dimension(250, 330));
         //optionPanel.setBackground(Color.DARK_GRAY); //debug
         optionPanel.setVisible(true);
 
@@ -150,7 +154,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
 
         JPanel selectionPanel = new JPanel();
         selectionPanel.setLayout(new BoxLayout(selectionPanel, BoxLayout.X_AXIS));
-        //selectionPanel.setBackground(Color.red); //debug
+       // selectionPanel.setBackground(Color.red); //debug
         selectionPanel.setVisible(true);
         selectionPanel.setPreferredSize(new Dimension(250, 40));
         selectionPanel.setMaximumSize(new Dimension(250, 40));
@@ -163,7 +167,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
         this.getContentPane().add(selectionPanel);
 
         this.setTitle("New Game");
-        this.setPreferredSize(new Dimension(250, 450));
+        this.setPreferredSize(new Dimension(250, 410));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
