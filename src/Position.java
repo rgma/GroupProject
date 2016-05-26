@@ -31,4 +31,6 @@ public class Position {
     public boolean isUpOpen() {
         return upOpen;
     }
+    
+
 }

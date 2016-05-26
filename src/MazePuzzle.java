@@ -15,21 +15,21 @@ public class MazePuzzle {
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
-    public static int MAZE_SIZE = 15;
+    public static int MAZE_SIZE = 21;
     public static int mazeSize = MAZE_SIZE;
     public static final int NUM_OF_COINS = 5;
     public static int numOfCoins;
     public static Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
-    public static Difficulty difficulty = Difficulty.MEDIUM;
-    public static int numPlayers = 1;
-    public static int winner = 0;
+    public static Difficulty difficulty;
     public static List<Position> coinList;
     public static int player1Score = 0;
     public static int player2Score = 0;
 
     public static void main (String args[]) throws IOException {
-        NewGameMenu newGame = new NewGameMenu();
-        //Maze c = new Maze(maze);
+        maze = generateMaze();
+       //playGame();
+        Maze c = new Maze(maze);
+		System.out.println("Game Over");
 
 
     }
@@ -187,7 +187,7 @@ public class MazePuzzle {
                 directionFrom = Direction.RIGHT;
             }
         }
-
+        difficulty = Difficulty.MEDIUM;
         //The difficulty affect the maze generation
         if (difficulty == Difficulty.EASY) {
             movementWeighting = 20;
@@ -374,5 +374,15 @@ public class MazePuzzle {
     
     public int getMazeSize(){
     	return MAZE_SIZE;
+    }
+    
+    public void changeToEasy(){
+    	difficulty = Difficulty.EASY;	
+    }
+    public void changeToMedium(){
+    	difficulty = Difficulty.MEDIUM;
+    }
+    public void changeToHard(){
+    	difficulty = Difficulty.HARD;
     }
 }

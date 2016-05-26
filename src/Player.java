@@ -126,4 +126,10 @@ public class Player {
 		face = "front";
 	}
 	
+	public void changeStarting2(int tileSize, int rowCols){
+		yTile = 0;
+		xTile = rowCols - 1;
+		x = x + ((rowCols-1)*tileSize);
+	}
+	
 }
