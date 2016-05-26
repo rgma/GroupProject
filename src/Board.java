@@ -22,6 +22,8 @@ public class Board extends JPanel implements ActionListener{
 	private Timer timer;
 	public static Position[][] maze;
 	public boolean gameDone;
+	public boolean playerLeftMaze;
+
 	Image[] grass = new Image[3];
 	Image fenceSide;
 	Image fenceFront;
@@ -143,6 +145,8 @@ public class Board extends JPanel implements ActionListener{
 		MazePuzzle newMaze = new MazePuzzle();
 		this.maze = newMaze.generateMaze();
 		gameDone = false;
+		playerLeftMaze = false;
+
 		timer = new Timer(5, this);
 		timer.start();
 		setFocusable(true);
@@ -156,7 +160,7 @@ public class Board extends JPanel implements ActionListener{
 			mode = "singlePlayer";
 		}
 		finishX = rowCols/2;
-		finishY = rowCols - 1;
+		finishY = rowCols;
 		gameDone = false;
 		timeSetRestart = MazePuzzle.time;
 		timeSet = timeSetRestart;
@@ -172,7 +176,7 @@ public class Board extends JPanel implements ActionListener{
 		System.out.print(rowCols);
 		tileSize = 700/rowCols;
 		finishX = rowCols/2;
-		finishY = rowCols - 1;
+		finishY = rowCols;
 		player = new Player(1);
 		player2 = new Player(2);
 		player2.changeStarting2(tileSize, rowCols);
@@ -268,8 +272,7 @@ public class Board extends JPanel implements ActionListener{
 			numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
 			g.setFont(new Font("Press Start 2P", Font.PLAIN, 130)); 
 			g.drawString("0", 700 + (side * 2) , 300);
-		
-			
+
 			gameDone = true;
 		}
 	
@@ -308,19 +311,18 @@ public class Board extends JPanel implements ActionListener{
 			//g.setColor(Color.red);
 			//g.fillRect (side+player.getX(), player.getY(), tileSize, tileSize);  
 		drawMaze(g);
-		if(player.getXTile() == finishX && player.getYTile() == finishY){
-			gameDone = true;
-		}
-		if(gameDone == true){
-			try {
-				timeSet = timeSet/2;
-				timeAvailable = timeAvailable + timeSet;
-				init();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+			if(playerLeftMaze == true){
+				playerLeftMaze = false;
+				try {
+					timeSet = timeSet/2;
+					timeAvailable = timeAvailable + timeSet;
+					init();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-		}
 		
 		}
 		
@@ -336,13 +338,16 @@ public class Board extends JPanel implements ActionListener{
 			
 			drawCharacter(player, g);
 			drawCharacter(player2, g);
-			if(maze[player2.getYTile()][player2.getXTile()].hasCoin == true){
-				score2++;
-				maze[player2.getYTile()][player2.getXTile()].hasCoin = false;
-			}
-			if(maze[player.getYTile()][player.getXTile()].hasCoin == true){
-				score++;
-				maze[player.getYTile()][player.getXTile()].hasCoin = false;
+			if (player2.getYTile() != finishY && player.getYTile() != finishY) {
+
+				if (maze[player2.getYTile()][player2.getXTile()].hasCoin == true) {
+					score2++;
+					maze[player2.getYTile()][player2.getXTile()].hasCoin = false;
+				}
+				if (maze[player.getYTile()][player.getXTile()].hasCoin == true) {
+					score++;
+					maze[player.getYTile()][player.getXTile()].hasCoin = false;
+				}
 			}
 			drawMaze(g);
 			g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
@@ -355,16 +360,7 @@ public class Board extends JPanel implements ActionListener{
 			g.drawString("PLAYER 2 SCORE ", 700 + (side * 2), 150);
 			numberAsString = String.valueOf(score2);
 			g.drawString(numberAsString, 700 + (side * 2), 200);
-			
-			if(player.getXTile() == finishX && player.getYTile() == finishY){
-				gameDone = true;
-				score = score * 2;
-			}
-			if(player2.getXTile() == finishX && player2.getYTile() == finishY){
-				score2 = score2 * 2;
-				gameDone = true;
-			}
-		
+
 		}else {
 			drawMaze(g);
 			g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
@@ -498,8 +494,15 @@ public class Board extends JPanel implements ActionListener{
 
 					if(gameDone == false){
 						if(maze[player.getYTile()][player.getXTile()].isDownOpen() == true){
-						player.changeX(0, tileSize);
-						player.changeY(+tileSize, tileSize);
+							if (player.getYTile() == finishY-1 && player.getXTile() == finishX) {
+								playerLeftMaze = true;
+								if (mode.contains("multiPlayer")) {
+									gameDone = true;
+								}
+							} else {
+								player.changeX(0, tileSize);
+								player.changeY(+tileSize, tileSize);
+							}
 						}
 					}
 				
@@ -546,8 +549,15 @@ public class Board extends JPanel implements ActionListener{
 				}
 				if(keyCode == KeyEvent.VK_DOWN){
 					if(maze[player2.getYTile()][player2.getXTile()].isDownOpen() == true){
-					player2.changeX(0, tileSize);
-					player2.changeY(+tileSize, tileSize);
+						if (player2.getYTile() == finishY-1 && player2.getXTile() == finishX) {
+							playerLeftMaze = true;
+							if (mode.contains("multiPlayer")) {
+								gameDone = true;
+							}
+						} else {
+							player2.changeX(0, tileSize);
+							player2.changeY(+tileSize, tileSize);
+						}
 					}
 					player2.changeFront();
 				}

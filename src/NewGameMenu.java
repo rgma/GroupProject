@@ -85,7 +85,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
 
         JComboBox<String> playerBox = new JComboBox<>(numPlayersArr);
         playerBox.setMaximumSize(new Dimension(200, 25));
-        playerBox.setFont(new Font("Press Start 2P", Font.PLAIN, 16));
+        playerBox.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
         ((JLabel) playerBox.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         playerBox.setName("Number Players Setting");
         playerBox.addActionListener(this);
@@ -106,7 +106,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
 
         JComboBox<String> setTimeBox = new JComboBox<>(setTimeArr);
         setTimeBox.setMaximumSize(new Dimension(200, 25));
-        setTimeBox.setFont(new Font("Press Start 2P", Font.PLAIN, 16));
+        setTimeBox.setFont(new Font("Press Start 2P", Font.PLAIN, 14));
         ((JLabel) setTimeBox.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         setTimeBox.setName("Timer Setting");
         setTimeBox.addActionListener(this);
@@ -155,7 +155,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
         selectionPanel.setPreferredSize(new Dimension(250, 40));
         selectionPanel.setMaximumSize(new Dimension(250, 40));
 
-        selectionPanel.add(Box.createRigidArea(new Dimension(45, 0)));
+        selectionPanel.add(Box.createRigidArea(new Dimension(25, 0)));
         selectionPanel.add(closeButton);
         selectionPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         selectionPanel.add(startButton);
@@ -197,6 +197,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
         MazePuzzle.difficulty = MazePuzzle.Difficulty.EASY;
         MazePuzzle.mazeSize = 9;
         MazePuzzle.numPlayers = 1;
+        MazePuzzle.time = 40;
     }
 
     @Override
