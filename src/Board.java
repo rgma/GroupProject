@@ -309,26 +309,48 @@ public class Board extends JPanel implements ActionListener {
 
         g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
         String numberAsString = String.valueOf(score);
-        g.drawString("PLAYER 1 SCORE ", 700 + (side * 2), 420);
-        g.drawString(numberAsString, 700 + (side * 2), 460);
+        g.drawString("PLAYER 1 SCORE ", 705 + (side * 2), 420);
+        g.setFont(new Font("Press Start 2P", Font.PLAIN, 22));
 
-        g.drawString("TIME LEFT", 750 + (side * 2), 40);
+        if (score < 10) {
+            g.drawString(numberAsString, 820 + (side * 2), 460);
+        } else if (score < 100) {
+            g.drawString(numberAsString, 810 + (side * 2), 460);
 
-        numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
-        if (Integer.parseInt(numberAsString) <= 0) {
-            g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
-            g.drawString("0", 800 + (side * 2), 150);
-        } else if (Integer.parseInt(numberAsString) < 10) {
-            g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
-            g.drawString(numberAsString, 800 + (side * 2), 150);
-        } else if (Integer.parseInt(numberAsString) < 100) {
-            g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
-            g.drawString(numberAsString, 765 + (side * 2), 150);
-        } else {
-            g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
-            g.drawString(numberAsString, 730 + (side * 2), 150);
+        } else  if (score < 1000) {
+            g.drawString(numberAsString, 800 + (side * 2), 460);
         }
 
+        if (mode.contains("multiPlayer")) {
+            g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
+            g.drawString("PLAYER 2 SCORE ", 705 + (side * 2), 500);
+            numberAsString = String.valueOf(score2);
+            g.setFont(new Font("Press Start 2P", Font.PLAIN, 22));
+            if (score2 < 10) {
+                g.drawString(numberAsString, 820 + (side * 2), 540);
+            } else if (score2 < 100) {
+                g.drawString(numberAsString, 810 + (side * 2), 540);
+
+            } else  if (score2 < 1000) {
+                g.drawString(numberAsString, 800 + (side * 2), 540);
+            }
+        } else {
+            g.drawString("TIME LEFT", 750 + (side * 2), 40);
+            numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
+            if (Integer.parseInt(numberAsString) <= 0) {
+                g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
+                g.drawString("0", 800 + (side * 2), 150);
+            } else if (Integer.parseInt(numberAsString) < 10) {
+                g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
+                g.drawString(numberAsString, 800 + (side * 2), 150);
+            } else if (Integer.parseInt(numberAsString) < 100) {
+                g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
+                g.drawString(numberAsString, 765 + (side * 2), 150);
+            } else {
+                g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
+                g.drawString(numberAsString, 730 + (side * 2), 150);
+            }
+        }
 
         g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
         g.drawString("MAZE SIZE", 745 + (side * 2), 320);
@@ -348,20 +370,12 @@ public class Board extends JPanel implements ActionListener {
         } else if (MazePuzzle.difficulty == MazePuzzle.Difficulty.HARD) {
             g.drawString("HARD", 790 + (side * 2), 260);
         }
-
-        if (mode.contains("multiPlayer")) {
-            g.drawString("PLAYER 2 SCORE ", 700 + (side * 2), 500);
-            numberAsString = String.valueOf(score2);
-            g.drawString(numberAsString, 700 + (side * 2), 540);
-            g.setFont(new Font("Press Start 2P", Font.PLAIN, 80));
-        }
     }
 
 
     public void multiPlayer(Graphics g) {
         long tEnd = System.currentTimeMillis();
         long tDelta = tEnd - tStart;
-
 
         background(g);
         if (gameDone == false) {
