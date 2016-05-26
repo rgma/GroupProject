@@ -335,7 +335,7 @@ public class Board extends JPanel implements ActionListener {
                 g.drawString(numberAsString, 800 + (side * 2), 540);
             }
         } else {
-            g.drawString("TIME LEFT", 750 + (side * 2), 40);
+            g.drawString("TIME LEFT", 730 + (side * 2), 40);
             numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
             if (Integer.parseInt(numberAsString) <= 0) {
                 g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
