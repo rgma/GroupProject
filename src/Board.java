@@ -41,8 +41,8 @@ public class Board extends JPanel implements ActionListener{
 	String mode;
 	int i = 0;
 	int time = 0;
-	int timeSetRestart = 40;
-	int timeSet = 50;
+	int timeSetRestart;
+	int timeSet;
 	int timeAvailable = 0;
 	int score = 0;
 	int score2;
@@ -158,6 +158,7 @@ public class Board extends JPanel implements ActionListener{
 		finishX = rowCols/2;
 		finishY = rowCols - 1;
 		gameDone = false;
+		timeSetRestart = MazePuzzle.time;
 		timeSet = timeSetRestart;
 		timeAvailable = timeSet;
 		MazePuzzle newMaze = new MazePuzzle();
@@ -280,8 +281,14 @@ public class Board extends JPanel implements ActionListener{
 		g.drawString(numberAsString, 700 + (side * 2), 100);
 		
 		g.drawString("TIME LEFT: ", 700 + (side * 2), 150);
+		
+		
 		numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
+		if(timeAvailable > 100){
+		g.setFont(new Font("Press Start 2P", Font.PLAIN, 90)); 
+		} else {
 		g.setFont(new Font("Press Start 2P", Font.PLAIN, 130)); 
+		}
 		g.drawString(numberAsString, 700 + (side * 2) , 300);
 		String timeString = new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0)));
 		int time = Integer.parseInt(timeString);
@@ -410,7 +417,7 @@ public class Board extends JPanel implements ActionListener{
 			
 			if(keyCode == KeyEvent.VK_W){
 				
-				if(player.getFace().equals("back")){	
+					
 					if(gameDone == false){
 			
 						if(maze[player.getYTile()][player.getXTile()].isUpOpen() == true){
@@ -418,43 +425,41 @@ public class Board extends JPanel implements ActionListener{
 						player.changeY(-tileSize, tileSize);
 						}
 					}
-				}
+				
 				player.changeBack();
 			}
 			if(keyCode == KeyEvent.VK_A){
-				
-				if(player.getFace().equals("left")){	
+					
 					if(gameDone == false){
 						if(maze[player.getYTile()][player.getXTile()].isLeftOpen() == true){
 						player.changeX(-tileSize, tileSize);
 						player.changeY(0, tileSize);		
 						}
 					}
-				}
+				
 				player.changeLeft();
 				
 			}
 			if(keyCode == KeyEvent.VK_S){
 
-				if(player.getFace().equals("front")){	
 					if(gameDone == false){
 						if(maze[player.getYTile()][player.getXTile()].isDownOpen() == true){
 						player.changeX(0, tileSize);
 						player.changeY(+tileSize, tileSize);
 						}
 					}
-				}
+				
 					player.changeFront();
 			}
 			if(keyCode == KeyEvent.VK_D){
-				if(player.getFace().equals("right")){	
+			
 					if(gameDone == false){
 						if(maze[player.getYTile()][player.getXTile()].isRightOpen() == true){
 							player.changeX(+tileSize, tileSize);
 							player.changeY(0, tileSize);
 						}
 					}
-				}
+				
 				player.changeRight();
 			}
 					

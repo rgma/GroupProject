@@ -15,7 +15,7 @@ public class MazePuzzle {
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
-    public static int MAZE_SIZE = 21;
+    public static int MAZE_SIZE = 9;
     public static int mazeSize = MAZE_SIZE;
     public static final int NUM_OF_COINS = 5;
     public static int numOfCoins;
@@ -26,7 +26,8 @@ public class MazePuzzle {
     public static List<Position> coinList;
     public static int player1Score = 0;
     public static int player2Score = 0;
-
+    public static int time = 40;
+    
     public static void main (String args[]) throws IOException {
         maze = generateMaze();
         NewGameMenu newGame = new NewGameMenu();

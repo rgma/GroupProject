@@ -40,7 +40,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
         String[] numPlayersArr = new String[]{"1 PLAYER", "2 PLAYER"};
         String[] gameDiffArr = new String[]{"EASY", "NORMAL", "HARD"};
         String[] sizeOfMazeArr = new String[]{"SMALL [9 X 9]", "MEDIUM [15 X 15]", "LARGE [21 X 21]"};
-        String[] setTimeArr = new String[]{"40", "60", "90"};
+        String[] setTimeArr = new String[]{"40", "60", "80"};
 
         JComboBox<String> playerBox = new JComboBox<>(numPlayersArr);
         playerBox.setMaximumSize(new Dimension(200, 25));
@@ -196,11 +196,16 @@ public class NewGameMenu extends JFrame implements ActionListener {
             System.out.println("Difficulty set: ");
             System.out.println(MazePuzzle.difficulty);
         } else if (cb.getName().contains("Timer Setting")) {
-
-            //here setTime?  = Integer.parseInt(newSelection);
-
+        	int time = Integer.parseInt(newSelection);
+        	if (time == 40) {
+                MazePuzzle.time = 40;
+            } else if (time == 60) {
+                MazePuzzle.time = 60;
+            } else {
+            	MazePuzzle.time = 80;
+            }
             System.out.println("Timer set: ");
-           // System.out.println(MazePuzzle.difficulty);
+            System.out.println(time);
         }
     }
 }
