@@ -169,21 +169,21 @@ public class NewGameMenu extends JFrame implements ActionListener {
             System.out.println(newSelection);
         } else if (cb.getName().contains("Maze Size Setting")) {
             if (newSelection.contains("SMALL")) {
-                MazePuzzle.MAZE_SIZE = 9;
+                //MazePuzzle.MAZE_SIZE = 9;
                 MazePuzzle.mazeSize = 9;
                 
             } else if (newSelection.contains("MEDIUM")) {
-                MazePuzzle.MAZE_SIZE = 15;
+                //MazePuzzle.MAZE_SIZE = 15;
                 MazePuzzle.mazeSize = 15;
                 
             } else {
-            	MazePuzzle.MAZE_SIZE = 21;
+            	//MazePuzzle.MAZE_SIZE = 21;
             	MazePuzzle.mazeSize = 21;
                 
             }
 
             System.out.println("Maze size set: ");
-            System.out.println(MazePuzzle.MAZE_SIZE);
+            System.out.println(MazePuzzle.mazeSize);
 
         } else if (cb.getName().contains("Game Difficulty Setting")) {
             if (newSelection.contains("EASY")) {

@@ -19,7 +19,7 @@ public class MazePuzzle {
     public static int mazeSize = MAZE_SIZE;
     public static final int NUM_OF_COINS = 5;
     public static int numOfCoins;
-    public static Position[][] maze = new Position[MAZE_SIZE][MAZE_SIZE];
+    public static Position[][] maze;
     public static Difficulty difficulty;
     public static int winner = 0;
     public static int numPlayers = 1;
@@ -29,7 +29,7 @@ public class MazePuzzle {
     public static int time = 40;
     
     public static void main (String args[]) throws IOException {
-        maze = generateMaze();
+        //maze = generateMaze();
         NewGameMenu newGame = new NewGameMenu();
         //Maze c = new Maze(maze);
     }
@@ -45,9 +45,11 @@ public class MazePuzzle {
         int rand2;
         int rand3;
 
+        maze = new Position[mazeSize][mazeSize];
+
         //Initalise maze positions
-        for (int i = 0; i < MAZE_SIZE; i++) {
-            for (int j = 0; j < MAZE_SIZE; j++) {
+        for (int i = 0; i < mazeSize; i++) {
+            for (int j = 0; j < mazeSize; j++) {
                 maze[i][j] = new Position(false, false, false, false);
                 maze[i][j].posX = i;
                 maze[i][j].posY = j;
@@ -99,12 +101,12 @@ public class MazePuzzle {
         }
 
         //Create exit position in bottom middle
-        maze[MAZE_SIZE-1][MAZE_SIZE/2].downOpen = true;
+        maze[mazeSize-1][mazeSize/2].downOpen = true;
 
         //Create additional openings in inner positions for greater player choice
-        for (int i = 0; i < (3 * MAZE_SIZE)/ 2; i++) {
-            rand1 = randGen.nextInt(MAZE_SIZE-2) + 1;
-            rand2 = randGen.nextInt(MAZE_SIZE-2) + 1;
+        for (int i = 0; i < (3 * mazeSize)/ 2; i++) {
+            rand1 = randGen.nextInt(mazeSize-2) + 1;
+            rand2 = randGen.nextInt(mazeSize-2) + 1;
             rand3 = randGen.nextInt(4);
             if (rand3 == 0) {
                 maze[rand1][rand2].upOpen = true;
@@ -131,11 +133,11 @@ public class MazePuzzle {
             numOfCoins =5;
         }
         for (int i = 0; i < numOfCoins; i++) {
-            rand1 = randGen.nextInt(MAZE_SIZE);
-            rand2 = randGen.nextInt(MAZE_SIZE);
+            rand1 = randGen.nextInt(mazeSize);
+            rand2 = randGen.nextInt(mazeSize);
             while (maze[rand1][rand2].hasCoin) {
-                rand1 = randGen.nextInt(MAZE_SIZE);
-                rand2 = randGen.nextInt(MAZE_SIZE);
+                rand1 = randGen.nextInt(mazeSize);
+                rand2 = randGen.nextInt(mazeSize);
             }
             maze[rand1][rand2].hasCoin = true;
             coinList.add(maze[rand1][rand2]);
@@ -163,7 +165,7 @@ public class MazePuzzle {
             }
         }
         //Check bottom neighbour
-        if (currPos.posX < (MAZE_SIZE - 1)) {
+        if (currPos.posX < (mazeSize - 1)) {
             //Find a possible movement direction
             if (!maze[currPos.posX + 1][currPos.posY].visited) {
                 directionList.add(Direction.DOWN);
@@ -180,7 +182,7 @@ public class MazePuzzle {
             }
         }
         //Check right neighbour
-        if (currPos.posY < (MAZE_SIZE - 1)) {
+        if (currPos.posY < (mazeSize - 1)) {
             if (!maze[currPos.posX][currPos.posY + 1].visited) {
                 directionList.add(Direction.RIGHT);
             } else if (maze[currPos.posX][currPos.posY].rightOpen){
@@ -294,7 +296,7 @@ public class MazePuzzle {
             }
 
             //Player has left the board and won the game
-            if (playerLocation[0] >= MAZE_SIZE || playerLocation[1] >= MAZE_SIZE) {
+            if (playerLocation[0] >= mazeSize || playerLocation[1] >= mazeSize) {
                 running = false;
             }
         }
@@ -332,7 +334,7 @@ public class MazePuzzle {
 
     public static void printMaze(int[] playerLocation) {
         //Print top border
-        for (int k = 0; k < MAZE_SIZE; k++) {
+        for (int k = 0; k < mazeSize; k++) {
             if (k == 0) {
                 System.out.print("+   ");
             } else {
@@ -342,8 +344,8 @@ public class MazePuzzle {
         }
         System.out.println("+");
 
-        for (int i = 0; i < MAZE_SIZE; i++) {
-            for (int j = 0; j < MAZE_SIZE; j++) {
+        for (int i = 0; i < mazeSize; i++) {
+            for (int j = 0; j < mazeSize; j++) {
                 //Wall blocking movement left
                 if (!maze[i][j].leftOpen) {
                     System.out.print("| ");
@@ -360,7 +362,7 @@ public class MazePuzzle {
             System.out.println("|");
 
             //Print bottom wall
-            for (int k = 0; k < MAZE_SIZE; k++) {
+            for (int k = 0; k < mazeSize; k++) {
                 //Wall blocking movement down
                 if (!maze[i][k].downOpen) {
                     System.out.print("+---");
