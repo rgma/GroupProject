@@ -248,12 +248,16 @@ public class Board extends JPanel implements ActionListener{
 	public void singlePlayer(Graphics g){
 		long tEnd = System.currentTimeMillis();
 		long tDelta = tEnd - tStart;
+		g.setColor(Color.BLACK);
+		
 		
 		if(timeAvailable - (tDelta / 1000.0) <= 0){
 			background(g);
 			drawMaze(g);
 			g.setFont(new Font("Press Start 2P", Font.PLAIN, 80)); 
-			g.drawString("GAMEOVER", side+12, 768/2);
+			g.setColor(Color.BLACK);
+			
+			g.drawString("GAMEOVER", side+30, 768/2);
 		
 			g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
 			String numberAsString = String.valueOf(score);
@@ -284,7 +288,9 @@ public class Board extends JPanel implements ActionListener{
 		
 		
 		numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
-		if(timeAvailable > 100){
+		if(timeAvailable > 1000){
+		g.setFont(new Font("Press Start 2P", Font.PLAIN, 50)); 
+		} else if (timeAvailable > 100){
 		g.setFont(new Font("Press Start 2P", Font.PLAIN, 90)); 
 		} else {
 		g.setFont(new Font("Press Start 2P", Font.PLAIN, 130)); 
@@ -321,6 +327,10 @@ public class Board extends JPanel implements ActionListener{
 	
 	}
 	public void multiPlayer(Graphics g){
+		long tEnd = System.currentTimeMillis();
+		long tDelta = tEnd - tStart;
+		
+	
 		background(g);
 		if(gameDone == false){
 			
@@ -355,9 +365,11 @@ public class Board extends JPanel implements ActionListener{
 				gameDone = true;
 			}
 		
-		} /*else {
+		}else {
 			drawMaze(g);
 			g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
+			g.setColor(Color.BLACK);
+			
 			String numberAsString = String.valueOf(score);
 			g.drawString("PLAYER 1 SCORE ", 700 + (side * 2), 50);
 			g.drawString(numberAsString, 700 + (side * 2), 100);
@@ -365,18 +377,60 @@ public class Board extends JPanel implements ActionListener{
 			g.drawString("PLAYER 2 SCORE ", 700 + (side * 2), 150);
 			numberAsString = String.valueOf(score2);
 			g.drawString(numberAsString, 700 + (side * 2), 200);
-		
-		}*/
+			g.setFont(new Font("Press Start 2P", Font.PLAIN, 80)); 
+			if(score > score2){
+				g.setFont(new Font("Press Start 2P", Font.PLAIN, 50)); 
+				g.drawString("PLAYER 1 WINS", side+25, 768/2);
+				String timeString = new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0)));
+				int time = Integer.parseInt(timeString);
+				if(time % 2 == 0){
+				player.changeFront();
+				drawCharacter(player, g);
+				}else{
+				player.changeWin();
+				drawCharacter(player, g);
+				}
+			}
+			if(score2 > score){
+				g.setFont(new Font("Press Start 2P", Font.PLAIN, 50)); 
+				g.drawString("PLAYER 2 WINS", side+25, 768/2);
+				String timeString = new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0)));
+				int time = Integer.parseInt(timeString);
+				if(time % 2 == 0){
+					player2.changeFront();
+					drawCharacter(player2, g);
+					}else{
+					player2.changeWin();
+					drawCharacter(player2, g);
+					}
+			}
+			if(score2 == score){
+				g.setFont(new Font("Press Start 2P", Font.PLAIN, 80)); 
+				g.drawString("  DRAW  ", side+25, 768/2);
+			
+			}
+			g.drawString("", side+12, 768/2);
+		}
 		
 		
 	}
 	
 	public void drawMaze(Graphics g){
+		long tEnd = System.currentTimeMillis();
+		long tDelta = tEnd - tStart;
+		String timeString = new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0)));
+		int time = Integer.parseInt(timeString);
+		if(time % 2 == 0){
+			ball = ball1;
+		}else{
+			ball = ball2;
+		}
+		
 		for(int i = 0; i < rowCols; i++){
 			for(int j = 0; j < rowCols; j++){
 					g.setColor(Color.white);
 					if(maze[i][j].hasCoin == true){
-						g.drawImage(ball, (j*tileSize)+tileSize, i*tileSize+tileSize, null);
+						g.drawImage(ball, (j*tileSize)+side+(tileSize/3), (i*tileSize)+top+(tileSize/3), null);
 					}
 					if(maze[i][j].isRightOpen() == false){
 						g.drawImage(fenceSide,side+(j*tileSize)+tileSize,(i*tileSize)+top, null);
@@ -518,6 +572,7 @@ public class Board extends JPanel implements ActionListener{
 		    if (source == menu) {
 		        menu.setForeground(Color.BLACK);
 		        NewGameMenu newGame = new NewGameMenu();
+		        timer.stop();
 		        close();
 		    }
 		    if (source == restart){

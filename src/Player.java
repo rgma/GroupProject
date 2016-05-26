@@ -16,6 +16,8 @@ public class Player {
 	Image[] back = new Image[2];
 	Image[] right = new Image[2];
 	Image[] left = new Image[2];
+	Image win;
+	Image lose;
 	Image get;
 	String face;
 	public Player(int playerNumber) throws IOException{
@@ -69,7 +71,7 @@ public class Player {
 	}
 	
 	public void changeLeft(){
-		if(image == left[0]){
+		if(image == left[0] || image == right[0]){
 			image  = left[1];
 		} else {
 			image  = left[0];
@@ -78,7 +80,7 @@ public class Player {
 	}
 	
 	public void changeRight(){
-		if(image == right[0]){
+		if(image == right[0] || image == left[0]){
 			image  = right[1];
 		} else {
 			image  = right[0];
@@ -100,6 +102,9 @@ public class Player {
 		return face;
 	}
 	
+	public void changeWin(){
+		image = win;
+	}
 	public void create1() throws IOException{
 		front[0] = ImageIO.read(new File("src/images/NESS/forwardwalk1.png"));
 		front[1] = ImageIO.read(new File("src/images/NESS/forwardwalk2.png"));
@@ -109,6 +114,8 @@ public class Player {
 		right[1] = ImageIO.read(new File("src/images/NESS/rightwalk2.png"));
 		left[0] = ImageIO.read(new File("src/images/NESS/leftstand.png"));
 		left[1]	= ImageIO.read(new File("src/images/NESS/leftwalk2.png"));
+		win = ImageIO.read(new File("src/images/NESS/jump.png"));
+		 
 		image = front[0];
 		face = "front";
 	}
@@ -122,6 +129,7 @@ public class Player {
 		right[1] = ImageIO.read(new File("src/images/PAULA/rightwalk2.png"));
 		left[0] = ImageIO.read(new File("src/images/PAULA/leftstand.png"));
 		left[1]	= ImageIO.read(new File("src/images/PAULA/leftwalk2.png"));
+		win = ImageIO.read(new File("src/images/PAULA/jump.png"));
 		image = front[0];
 		face = "front";
 	}
