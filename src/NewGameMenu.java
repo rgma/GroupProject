@@ -1,7 +1,9 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
 public class NewGameMenu extends JFrame implements ActionListener {
@@ -15,27 +17,66 @@ public class NewGameMenu extends JFrame implements ActionListener {
         //this.getContentPane().setBackground(Color.yellow); //debug
 
         this.getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        try {
+		     GraphicsEnvironment ge = 
+		         GraphicsEnvironment.getLocalGraphicsEnvironment();
+		     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/PressStart2P.ttf")));
+		} catch (IOException|FontFormatException e){
+			
+		}
+        final JButton closeButton = new JButton("Close");
+        closeButton.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
+		closeButton.setOpaque(false);
+		closeButton.setContentAreaFilled(false);
+		//multiPlayer.setBorderPainted(false);
+		closeButton.setFocusPainted(false);
+		closeButton.setForeground(Color.BLACK);
+		//closeButton.setBorderPainted(false);
+		closeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		        closeButton.setForeground(Color.RED);
+		    }
 
-        JButton closeButton = new JButton("Close");
-        JButton startButton = new JButton("Start");
-        closeButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-        startButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		        closeButton.setForeground(Color.BLACK);
+		    }
+		});
+	    closeButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+	 
+		final JButton startButton = new JButton("Start");
+	    startButton.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
+		startButton.setOpaque(false);
+		startButton.setContentAreaFilled(false);
+		//multiPlayer.setBorderPainted(false);
+		startButton.setFocusPainted(false);
+		startButton.setForeground(Color.BLACK);
+		//startButton.setBorderPainted(false);
+		startButton.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		        startButton.setForeground(Color.RED);
+		    }
 
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		        startButton.setForeground(Color.BLACK);
+		    }
+		});
+		startButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+	 
         JLabel numOfPlayers = new JLabel("NUMBER OF PLAYERS");
         numOfPlayers.setAlignmentX(Component.CENTER_ALIGNMENT);
-        numOfPlayers.setFont(new Font("Serif", Font.BOLD, 18));
+        numOfPlayers.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
 
         JLabel sizeOfMaze = new JLabel("SIZE OF MAZE");
         sizeOfMaze.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sizeOfMaze.setFont(new Font("Serif", Font.BOLD, 18));
+        sizeOfMaze.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
 
         JLabel gameDiff = new JLabel("GAME DIFFICULTY");
         gameDiff.setAlignmentX(Component.CENTER_ALIGNMENT);
-        gameDiff.setFont(new Font("Serif", Font.BOLD, 18));
+        gameDiff.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
 
         JLabel setTime = new JLabel("TIMER IN SECONDS");
         setTime.setAlignmentX(Component.CENTER_ALIGNMENT);
-        setTime.setFont(new Font("Serif", Font.BOLD, 18));
+        setTime.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
 
         String[] numPlayersArr = new String[]{"1 PLAYER", "2 PLAYER"};
         String[] gameDiffArr = new String[]{"EASY", "NORMAL", "HARD"};
@@ -44,28 +85,28 @@ public class NewGameMenu extends JFrame implements ActionListener {
 
         JComboBox<String> playerBox = new JComboBox<>(numPlayersArr);
         playerBox.setMaximumSize(new Dimension(200, 25));
-        playerBox.setFont(new Font("Serif", Font.BOLD, 16));
+        playerBox.setFont(new Font("Press Start 2P", Font.PLAIN, 16));
         ((JLabel) playerBox.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         playerBox.setName("Number Players Setting");
         playerBox.addActionListener(this);
 
         JComboBox<String> gameDiffBox = new JComboBox<>(gameDiffArr);
         gameDiffBox.setMaximumSize(new Dimension(200, 25));
-        gameDiffBox.setFont(new Font("Serif", Font.BOLD, 16));
+        gameDiffBox.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
         ((JLabel) gameDiffBox.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         gameDiffBox.setName("Game Difficulty Setting");
         gameDiffBox.addActionListener(this);
 
         JComboBox<String> sizeOfMazeBox = new JComboBox<>(sizeOfMazeArr);
         sizeOfMazeBox.setMaximumSize(new Dimension(200, 25));
-        sizeOfMazeBox.setFont(new Font("Serif", Font.BOLD, 16));
+        sizeOfMazeBox.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
         ((JLabel) sizeOfMazeBox.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         sizeOfMazeBox.setName("Maze Size Setting");
         sizeOfMazeBox.addActionListener(this);
 
         JComboBox<String> setTimeBox = new JComboBox<>(setTimeArr);
         setTimeBox.setMaximumSize(new Dimension(200, 25));
-        setTimeBox.setFont(new Font("Serif", Font.BOLD, 16));
+        setTimeBox.setFont(new Font("Press Start 2P", Font.PLAIN, 16));
         ((JLabel) setTimeBox.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         setTimeBox.setName("Timer Setting");
         setTimeBox.addActionListener(this);
