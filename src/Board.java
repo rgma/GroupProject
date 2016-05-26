@@ -32,29 +32,19 @@ public class Board extends JPanel implements ActionListener{
 	Image ball1;
 	Image ball2;
 	Image ball;
-	JButton singlePlayer;
-	JButton multiPlayer;
+
 	JButton menu;
 	JButton restart;
-	JButton settings;
-	JButton time40;
-	JButton time60;
-	JButton time80;
-	JButton size11;
-	JButton size15;
-	JButton size21;
-	JButton easy;
-	JButton medium;
-	JButton hard;
+
 	String difficulty = "easy";
 	int background = 0;
 	String mode;
 	int i = 0;
 	int time = 0;
 	int timeSetRestart = 40;
-	int timeSet = 0;
+	int timeSet = 50;
 	int timeAvailable = 0;
-	int score = 1000;
+	int score = 0;
 	int score2;
 	int tileSize = 35;
 	int side = 15;
@@ -65,11 +55,18 @@ public class Board extends JPanel implements ActionListener{
 	int rowCols = 0;
 	int finishX;
 	int finishY;
-	int changeSize = 11;
+
 	Image backgroundMain;
 	MazePuzzle mazePuzzle;
 	public Board(Position[][] maze) throws IOException{
 		mazePuzzle = new MazePuzzle();
+		if(MazePuzzle.numPlayers == 2){
+			mode = "multiPlayer";
+		}
+		if(MazePuzzle.numPlayers == 1){
+			mode = "singlePlayer";
+		}
+		
 		rowCols = mazePuzzle.getMazeSize();
 		tileSize = 700/rowCols;
 		finishX = rowCols/2;
@@ -109,56 +106,10 @@ public class Board extends JPanel implements ActionListener{
 		ball1 = ball1.getScaledInstance(tileSize/2, tileSize/2, Image.SCALE_DEFAULT);
 		ball2 = ImageIO.read(new File("src/images/balls/ball2.png"));
 		ball2 = ball2.getScaledInstance(tileSize/2, tileSize/2, Image.SCALE_DEFAULT);
-		
 		ball = ball1; 
 		//singlePlayerBlack = .getScaledInstance(tileSize, 5, Image.SCALE_DEFAULT);
 
-		singlePlayer = new JButton("Single Player");
-		singlePlayer.setFont(new Font("Press Start 2P", Font.PLAIN, 24)); 
-		singlePlayer.setOpaque(false);
-		singlePlayer.setContentAreaFilled(false);
-		//singlePlayer.setBorderPainted(false);
-		singlePlayer.setFocusPainted(false);
-		singlePlayer.addActionListener(new ButtonListener());
-		this.setLayout(null);
-		singlePlayer.setSize(350, 55);
-		singlePlayer.setLocation(250, 200);
-
-
-		//this.setBackground(backgroundMain);
-	
-		singlePlayer.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		        singlePlayer.setForeground(Color.RED);
-		    }
-
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		        singlePlayer.setForeground(Color.BLACK);
-		    }
-		});
 		
-	
-		
-		
-		multiPlayer = new JButton("MultiPlayer");
-		multiPlayer.setFont(new Font("Press Start 2P", Font.PLAIN, 24)); 
-		multiPlayer.setOpaque(false);
-		multiPlayer.setContentAreaFilled(false);
-		//multiPlayer.setBorderPainted(false);
-		multiPlayer.setFocusPainted(false);
-		multiPlayer.addActionListener(new ButtonListener());
-		multiPlayer.setSize(300, 55);
-		multiPlayer.setLocation(250, 275);
-		multiPlayer.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		        multiPlayer.setForeground(Color.RED);
-		    }
-
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		        multiPlayer.setForeground(Color.BLACK);
-		    }
-		});
-	
 		menu = new JButton("Main Menu");
 		menu.setFont(new Font("Press Start 2P", Font.PLAIN, 24));
 		menu.setOpaque(false);
@@ -169,7 +120,6 @@ public class Board extends JPanel implements ActionListener{
 		menu.setSize(250, 50);
 		menu.setLocation(700 + (side * 2), 630 + top);
 		//menu.setBorderPainted(false);
-	
 		
 		menu.addMouseListener(new java.awt.event.MouseAdapter() {
 		    public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -200,109 +150,8 @@ public class Board extends JPanel implements ActionListener{
 		        restart.setForeground(Color.BLACK);
 		    }
 		});
-		settings = new JButton("Settings");
-		settings.setFont(new Font("Press Start 2P", Font.PLAIN, 24));
-		settings.setOpaque(false);
-		settings.setContentAreaFilled(false);
-		//multiPlayer.setBorderPainted(false);
-		settings.setFocusPainted(false);
-		settings.addActionListener(new ButtonListener());
-		settings.setSize(300, 55);
-		settings.setLocation(250, 350);
-		settings.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		        settings.setForeground(Color.RED);
-		    }
-
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		        settings.setForeground(Color.BLACK);
-		    }
-		});
-		mode = "menu";
-		time40 = new JButton("time40");
-		time40.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		time40.setOpaque(false);
-		time40.setContentAreaFilled(false);
-		//multiPlayer.setBorderPainted(false);
-		time40.setFocusPainted(false);
-		time40.addActionListener(new ButtonListener());
-		time40.setSize(150, 55);
-		time40.setLocation(200, 350);
 		
-		time60 = new JButton("time60");
-		time60.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		time60.setOpaque(false);
-		time60.setContentAreaFilled(false);
-		//multiPlayer.setBorderPainted(false);
-		time60.setFocusPainted(false);
-		time60.addActionListener(new ButtonListener());
-		time60.setSize(150, 55);
-		time60.setLocation(400, 350);
-		
-		time80 = new JButton("time80");
-		time80.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		time80.setOpaque(false);
-		time80.setContentAreaFilled(false);
-		//multiPlayer.setBorderPainted(false);
-		time80.setFocusPainted(false);
-		time80.addActionListener(new ButtonListener());
-		time80.setSize(150, 55);
-		time80.setLocation(600, 350);
-		setFocusable(true);
-		size11 = new JButton("size 11");
-		size11.addActionListener(new ButtonListener());
-		size11.setSize(150, 55);
-		size11.setLocation(200, 550);
-		size11.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		size11.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		size11.setOpaque(false);
-		size11.setContentAreaFilled(false);
-		
-		size15 = new JButton("size 15");
-		size15.addActionListener(new ButtonListener());
-		size15.setSize(150, 55);
-		size15.setLocation(400, 550);
-		size15.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		size15.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		size15.setOpaque(false);
-		size15.setContentAreaFilled(false);
-		
-		size21 = new JButton("size 21");
-		size21.addActionListener(new ButtonListener());
-		size21.setSize(150, 55);
-		size21.setLocation(600, 550);
-		size21.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		size21.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		size21.setOpaque(false);
-		size21.setContentAreaFilled(false);
-		
-		easy = new JButton("EASY");
-		easy.addActionListener(new ButtonListener());
-		easy.setSize(150, 55);
-		easy.setLocation(200, 150);
-		easy.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		easy.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		easy.setOpaque(false);
-		easy.setContentAreaFilled(false);
-		
-		medium = new JButton("MEDIUM");
-		medium.addActionListener(new ButtonListener());
-		medium.setSize(150, 55);
-		medium.setLocation(400, 150);
-		medium.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		medium.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		medium.setOpaque(false);
-		medium.setContentAreaFilled(false);
-		
-		hard = new JButton("HARD");
-		hard.addActionListener(new ButtonListener());
-		hard.setSize(150, 55);
-		hard.setLocation(600, 150);
-		hard.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		hard.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
-		hard.setOpaque(false);
-		hard.setContentAreaFilled(false);
-		
+		init2();
 	}
 	
 	public void setButton(JButton button){
@@ -329,22 +178,11 @@ public class Board extends JPanel implements ActionListener{
 		gameDone = false;
 		timeSet = timeSetRestart;
 		timeAvailable = timeSet;
-		System.out.println(timeSet);
-		System.out.println(timeSetRestart);
 		player = new Player(1);
 		player2 = new Player(2);
 		player2.changeStarting2(tileSize, rowCols);
 		MazePuzzle newMaze = new MazePuzzle();
-		MazePuzzle.MAZE_SIZE = changeSize;
-	    if(MazePuzzle.difficulty == MazePuzzle.Difficulty.EASY){
-	    	newMaze.changeToEasy();
-	    }
-	    if(MazePuzzle.difficulty == MazePuzzle.Difficulty.MEDIUM){
-	    	newMaze.changeToMedium();
-	    }
-	    if(MazePuzzle.difficulty == MazePuzzle.Difficulty.HARD){
-	    	newMaze.changeToHard();
-	    }
+		
 		maze = newMaze.generateMaze();
 
 		tStart = System.currentTimeMillis();
@@ -352,7 +190,7 @@ public class Board extends JPanel implements ActionListener{
 		score = 0;
 		score2 = 0;
 		rowCols = newMaze.getMazeSize();
-		
+		System.out.print(rowCols);
 		tileSize = 700/rowCols;
 		finishX = rowCols/2;
 		finishY = rowCols - 1;
@@ -385,33 +223,11 @@ public class Board extends JPanel implements ActionListener{
 	
 	public void paint(Graphics g){
 		super.paint(g);
-		this.remove(singlePlayer);
-		this.remove(multiPlayer);
-		this.remove(time40);
-		this.remove(time60);
-		this.remove(time80);
+	
 		g.setFont(new Font("Press Start 2P", Font.PLAIN, 60)); 
 		g.drawString("Maze Bound",100,100);
 		//g.drawImage(backgroundMain, 0, 0, null);
-		if(mode.equals("menu")){
-			score = 0;
-			timeAvailable = timeSet;
-			menu(g);
-			try {
-				init2();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}else{
-			this.remove(singlePlayer);
-			this.remove(multiPlayer);
-			this.remove(time40);
-			this.remove(time60);
-			this.remove(time80);
-			
-			this.add(menu);
-		}
+	
 		if(mode.equals("singlePlayer")){
 			this.add(menu);
 			this.add(restart);
@@ -423,46 +239,22 @@ public class Board extends JPanel implements ActionListener{
 			background(g);
 			multiPlayer(g);
 		}
-		else if(mode.equals("settings")){
-			settings(g);
-		}
+
 
 	}
 	
 	public void menu(Graphics g){
 		JPanel p = new JPanel(new BorderLayout()); 
 		this.add(p);
-		this.add(singlePlayer);
-		this.add(multiPlayer);
-		this.add(settings);
-		this.remove(restart);
+	this.remove(restart);
 		this.remove(menu);
-		this.remove(time40);
-		this.remove(time60);
-		this.remove(time80);
-		this.remove(size11);
-		this.remove(size15);
-		this.remove(size21);
-		this.remove(easy);
-		this.remove(medium);
-		this.remove(hard);
+
 		
 	}
 	
 	public void settings(Graphics g){
-		this.add(time40);
-		this.add(time60);
-		this.add(time80);
-		this.add(size11);
-		this.add(size15);
-		this.add(size21);
-		this.add(easy);
-		this.add(medium);
-		this.add(hard);
+	
 		this.add(menu);
-		this.remove(singlePlayer);
-		this.remove(multiPlayer);
-		this.remove(settings);
 		this.remove(restart);
 	
 	}
@@ -606,27 +398,17 @@ public class Board extends JPanel implements ActionListener{
 						g.drawImage(ball, (j*tileSize)+tileSize, i*tileSize+tileSize, null);
 					}
 					if(maze[i][j].isRightOpen() == false){
-						g.setColor(Color.black);
-						//g.drawLine((j*tileSize)+tileSize,i*tileSize, (j*tileSize)+tileSize, (i*tileSize)+tileSize);
 						g.drawImage(fenceSide,side+(j*tileSize)+tileSize,(i*tileSize)+top, null);
 					}
-					
-					//g.fillRect(i*tileSize, j*tileSize, tileSize, tileSize);
 					if(maze[i][j].isLeftOpen() == false){
-						g.setColor(Color.black);
-						//g.drawLine(j*tileSize,i*tileSize, j*tileSize, (i*tileSize)+tileSize);
 						g.drawImage(fenceSide,side+j*tileSize,(i*tileSize) + top, null);
 						
 					}
 					if(maze[i][j].isUpOpen() == false){
-						g.setColor(Color.black);
-						//g.drawLine(j*tileSize,i*tileSize, (j*tileSize)+tileSize, i*tileSize);
 						g.drawImage(fenceFront,side+j*tileSize,(i*tileSize) + top, null);
 						
 					}
 					if(maze[i][j].isDownOpen() == false){
-						g.setColor(Color.black);
-						//g.drawLine((j*tileSize),(i*tileSize)+tileSize, (j*tileSize)+tileSize, (i*tileSize)+tileSize);
 						g.drawImage(fenceFront,(side+j*tileSize),((i*tileSize)+tileSize) + top, null);
 					}
 			}
@@ -747,43 +529,9 @@ public class Board extends JPanel implements ActionListener{
         	requestFocusInWindow();
 		    Object source = event.getSource();
 
-		    if (source == singlePlayer) {
-		        mode = "singlePlayer";
-		        tStart = System.currentTimeMillis();
-		    }
-		    if (source == multiPlayer) {
-		        mode = "multiPlayer";
-		    }
 		    if (source == menu) {
-		    	  multiPlayer.setForeground(Color.BLACK);
-		    	  singlePlayer.setForeground(Color.BLACK);
-		    	  settings.setForeground(Color.BLACK);
-		    	  menu.setForeground(Color.BLACK);
+		        menu.setForeground(Color.BLACK);
 		        mode = "menu";
-		    }
-		    if(source == settings){
-		    	mode = "settings";
-		    }
-		    if (source == time40){
-		    	timeSet = 40;
-		    	timeSetRestart = 40;
-		    }
-		    if (source == time60){
-		    	timeSet = 60;
-		    	timeSetRestart = 60;
-		    }
-		    if (source == time80){
-		    	timeSet = 80;
-		    	timeSetRestart = 80;
-		    }
-		    if (source == size11){
-		    	changeSize = 11;
-		    }
-		    if (source == size15){
-		    	changeSize = 15;
-		    }
-		    if (source == size21){
-		    	changeSize = 21;
 		    }
 		    if (source == restart){
 		    	try {
@@ -793,61 +541,8 @@ public class Board extends JPanel implements ActionListener{
 					e.printStackTrace();
 				}
 		    }
-		    if (source == easy){
-		    	difficulty = "easy";
-		    }
-		    if (source == medium){
-		    	difficulty = "medium";
-		    }
-		    if (source == hard){
-		    	difficulty = "hard";
-		    }
-		    if(changeSize == 21){
-		    	size11.setForeground(Color.BLACK);
-		    	size15.setForeground(Color.BLACK);
-		    	size21.setForeground(Color.RED);
-		    }
-		    if(changeSize == 15){
-		    	size11.setForeground(Color.BLACK);
-		    	size15.setForeground(Color.RED);
-		    	size21.setForeground(Color.BLACK);
-		    }
-		    if(changeSize == 11){
-		    	size11.setForeground(Color.RED);
-		    	size15.setForeground(Color.BLACK);
-		    	size21.setForeground(Color.BLACK);
-		    }
-		    if(timeSetRestart == 40){
-		    	time40.setForeground(Color.RED);
-		    	time60.setForeground(Color.BLACK);
-		    	time80.setForeground(Color.BLACK);
-		    }
-		    if(timeSetRestart == 60){
-		    	time40.setForeground(Color.BLACK);
-		    	time60.setForeground(Color.RED);
-		    	time80.setForeground(Color.BLACK);
-		    }
-		    if(timeSetRestart == 80){
-		    	time40.setForeground(Color.BLACK);
-		    	time60.setForeground(Color.BLACK);
-		    	time80.setForeground(Color.RED);
-		    }
-		    if(difficulty == "easy"){
-		    	easy.setForeground(Color.RED);
-		    	medium.setForeground(Color.BLACK);
-		    	hard.setForeground(Color.BLACK);
-		    }
-		    if(difficulty == "medium"){
-		    	easy.setForeground(Color.BLACK);
-		    	medium.setForeground(Color.RED);
-		    	hard.setForeground(Color.BLACK);
-		    }
-		    if(difficulty == "hard"){
-		    	easy.setForeground(Color.BLACK);
-		    	medium.setForeground(Color.BLACK);
-		    	hard.setForeground(Color.RED);
-		    }
-		  }
+		   
+	 }
 	 }
 	 
 	
