@@ -1,11 +1,9 @@
-import java.awt.CardLayout;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 
 public class MazePuzzle {
     public enum Difficulty {
@@ -18,21 +16,15 @@ public class MazePuzzle {
 
     public static int MAZE_SIZE = 9;
     public static int mazeSize = MAZE_SIZE;
-    public static final int NUM_OF_COINS = 5;
     public static int numOfCoins;
     public static Position[][] maze;
     public static Difficulty difficulty;
-    public static int winner = 0;
     public static int numPlayers = 1;
     public static List<Position> coinList;
-    public static int player1Score = 0;
-    public static int player2Score = 0;
     public static int time = 40;
 
     public static void main(String args[]) throws IOException {
-        //maze = generateMaze();
         NewGameMenu newGame = new NewGameMenu();
-        //Maze c = new Maze(maze);
     }
 
     //Generates a maze using weighted randomised DFS. The starting and exit points are
@@ -45,7 +37,6 @@ public class MazePuzzle {
         int rand1;
         int rand2;
         int rand3;
-
         maze = new Position[mazeSize][mazeSize];
 
         //Initalise maze positions
@@ -61,9 +52,9 @@ public class MazePuzzle {
         currPos = maze[0][0];
         currPos.visited = true;
 
-        rand1 = randGen.nextInt(2);
 
         //Add right neighbour
+        rand1 = randGen.nextInt(2);
         if (rand1 == 0) {
             maze[0][0].rightOpen = true;
             maze[0][1].leftOpen = true;
@@ -133,6 +124,7 @@ public class MazePuzzle {
         } else if (mazeSize == 21) {
             numOfCoins = 5;
         }
+
         for (int i = 0; i < numOfCoins; i++) {
             rand1 = randGen.nextInt(mazeSize);
             rand2 = randGen.nextInt(mazeSize);
@@ -377,17 +369,5 @@ public class MazePuzzle {
 
     public int getMazeSize() {
         return mazeSize;
-    }
-
-    public void changeToEasy() {
-        difficulty = Difficulty.EASY;
-    }
-
-    public void changeToMedium() {
-        difficulty = Difficulty.MEDIUM;
-    }
-
-    public void changeToHard() {
-        difficulty = Difficulty.HARD;
     }
 }

@@ -1,9 +1,7 @@
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 
 public class Player {
     int x;
@@ -25,11 +23,7 @@ public class Player {
         y = 0;
         xTile = 0;
         yTile = 0;
-        if (playerNumber == 1) {
-            create1();
-        } else {
-            create2();
-        }
+        create(playerNumber);
     }
 
     public int getX() {
@@ -106,31 +100,23 @@ public class Player {
         image = win;
     }
 
-    public void create1() throws IOException {
-        front[0] = ImageIO.read(new File("src/images/NESS/forwardwalk1.png"));
-        front[1] = ImageIO.read(new File("src/images/NESS/forwardwalk2.png"));
-        back[0] = ImageIO.read(new File("src/images/NESS/upwalk1.png"));
-        back[1] = ImageIO.read(new File("src/images/NESS/upwalk2.png"));
-        right[0] = ImageIO.read(new File("src/images/NESS/rightstand.png"));
-        right[1] = ImageIO.read(new File("src/images/NESS/rightwalk2.png"));
-        left[0] = ImageIO.read(new File("src/images/NESS/leftstand.png"));
-        left[1] = ImageIO.read(new File("src/images/NESS/leftwalk2.png"));
-        win = ImageIO.read(new File("src/images/NESS/jump.png"));
+    public void create(int playerNum) throws IOException {
+        String player;
+        if (playerNum == 1) {
+            player = "NESS";
+        } else {
+            player = "PAULA";
+        }
+        front[0] = ImageIO.read(new File("src/images/"+player+"/forwardwalk1.png"));
+        front[1] = ImageIO.read(new File("src/images/"+player+"/forwardwalk2.png"));
+        back[0] = ImageIO.read(new File("src/images/"+player+"/upwalk1.png"));
+        back[1] = ImageIO.read(new File("src/images/"+player+"/upwalk2.png"));
+        right[0] = ImageIO.read(new File("src/images/"+player+"/rightstand.png"));
+        right[1] = ImageIO.read(new File("src/images/"+player+"/rightwalk2.png"));
+        left[0] = ImageIO.read(new File("src/images/"+player+"/leftstand.png"));
+        left[1] = ImageIO.read(new File("src/images/"+player+"/leftwalk2.png"));
+        win = ImageIO.read(new File("src/images/"+player+"/jump.png"));
 
-        image = front[0];
-        face = "front";
-    }
-
-    public void create2() throws IOException {
-        front[0] = ImageIO.read(new File("src/images/PAULA/forwardwalk1.png"));
-        front[1] = ImageIO.read(new File("src/images/PAULA/forwardwalk2.png"));
-        back[0] = ImageIO.read(new File("src/images/PAULA/upwalk1.png"));
-        back[1] = ImageIO.read(new File("src/images/PAULA/upwalk2.png"));
-        right[0] = ImageIO.read(new File("src/images/PAULA/rightstand.png"));
-        right[1] = ImageIO.read(new File("src/images/PAULA/rightwalk2.png"));
-        left[0] = ImageIO.read(new File("src/images/PAULA/leftstand.png"));
-        left[1] = ImageIO.read(new File("src/images/PAULA/leftwalk2.png"));
-        win = ImageIO.read(new File("src/images/PAULA/jump.png"));
         image = front[0];
         face = "front";
     }

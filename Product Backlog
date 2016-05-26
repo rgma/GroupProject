@@ -1,9 +1,0 @@
-generate a very basic GUI for the users with a side panel for game information
-(timer, score, new game, restart, etc)
-
-Extensions
-    score system based on coin collection
-	multiplayer
-	time trial
-	animations
-	detailed GUI

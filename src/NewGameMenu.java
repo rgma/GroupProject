@@ -1,5 +1,4 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,14 +8,12 @@ import java.io.IOException;
 public class NewGameMenu extends JFrame implements ActionListener {
 
     public NewGameMenu() {
-
         initUI();
     }
 
     private void initUI() {
-        //this.getContentPane().setBackground(Color.yellow); //debug
-
         this.getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
         try {
             GraphicsEnvironment ge =
                     GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -24,16 +21,18 @@ public class NewGameMenu extends JFrame implements ActionListener {
         } catch (IOException | FontFormatException e) {
 
         }
+
+        //Create closeButton that changes when highlighted
         final JButton closeButton = new JButton("Close");
         closeButton.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
         closeButton.setOpaque(false);
         closeButton.setContentAreaFilled(false);
         closeButton.setSize(new Dimension(85, 25));
         closeButton.setMaximumSize(new Dimension(85, 25));
-        //multiPlayer.setBorderPainted(false);
         closeButton.setFocusPainted(false);
         closeButton.setForeground(Color.BLACK);
-        //closeButton.setBorderPainted(false);
+        closeButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+
         closeButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 closeButton.setForeground(Color.RED);
@@ -43,18 +42,24 @@ public class NewGameMenu extends JFrame implements ActionListener {
                 closeButton.setForeground(Color.BLACK);
             }
         });
-        closeButton.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        //Create startButton that changes when highlighted
         final JButton startButton = new JButton("Start");
         startButton.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
         startButton.setOpaque(false);
         startButton.setContentAreaFilled(false);
         startButton.setSize(new Dimension(85, 25));
         startButton.setMaximumSize(new Dimension(85, 25));
-        //multiPlayer.setBorderPainted(false);
         startButton.setFocusPainted(false);
         startButton.setForeground(Color.BLACK);
-        //startButton.setBorderPainted(false);
+        startButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+
         startButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 startButton.setForeground(Color.RED);
@@ -64,8 +69,20 @@ public class NewGameMenu extends JFrame implements ActionListener {
                 startButton.setForeground(Color.BLACK);
             }
         });
-        startButton.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    MazePuzzle.maze = MazePuzzle.generateMaze();
+                    Maze newMaze = new Maze(MazePuzzle.maze);
+                    dispose();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        //Create game information displaying JLabels
         JLabel numOfPlayers = new JLabel("NUMBER OF PLAYERS");
         numOfPlayers.setAlignmentX(Component.CENTER_ALIGNMENT);
         numOfPlayers.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
@@ -82,11 +99,13 @@ public class NewGameMenu extends JFrame implements ActionListener {
         setTime.setAlignmentX(Component.CENTER_ALIGNMENT);
         setTime.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
 
+        //Create String arrays for setting game options
         String[] numPlayersArr = new String[]{"1 PLAYER", "2 PLAYER"};
         String[] gameDiffArr = new String[]{"EASY", "NORMAL", "HARD"};
         String[] sizeOfMazeArr = new String[]{"SMALL [9 X 9]", "MEDIUM [15 X 15]", "LARGE [21 X 21]"};
         String[] setTimeArr = new String[]{"40", "60", "80"};
 
+        //Create JComboBoxes for for setting game options
         JComboBox<String> playerBox = new JComboBox<>(numPlayersArr);
         playerBox.setMaximumSize(new Dimension(200, 25));
         playerBox.setFont(new Font("Press Start 2P", Font.PLAIN, 12));
@@ -120,16 +139,16 @@ public class NewGameMenu extends JFrame implements ActionListener {
         textField.setAlignmentX(Component.CENTER_ALIGNMENT);
         textField.setHorizontalAlignment(JLabel.CENTER);
 
-
+        //Create a panel to hold option JComboBoxes
         JPanel optionPanel = new JPanel();
 
         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
         optionPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
         optionPanel.setPreferredSize(new Dimension(250, 330));
         optionPanel.setMaximumSize(new Dimension(250, 330));
-        //optionPanel.setBackground(Color.DARK_GRAY); //debug
         optionPanel.setVisible(true);
 
+        //Add UI option selection elements to panel
         optionPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         optionPanel.add(playerBox);
         optionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -146,21 +165,21 @@ public class NewGameMenu extends JFrame implements ActionListener {
         optionPanel.add(setTimeBox);
         optionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         optionPanel.add(setTime);
-
         this.getContentPane().add(optionPanel);
 
+        //Create a panel to hold buttons
         JPanel selectionPanel = new JPanel();
         selectionPanel.setLayout(new BoxLayout(selectionPanel, BoxLayout.X_AXIS));
-        // selectionPanel.setBackground(Color.red); //debug
+
         selectionPanel.setVisible(true);
         selectionPanel.setPreferredSize(new Dimension(250, 40));
         selectionPanel.setMaximumSize(new Dimension(250, 40));
 
+        //Add UI option selection elements
         selectionPanel.add(Box.createRigidArea(new Dimension(25, 0)));
         selectionPanel.add(closeButton);
         selectionPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         selectionPanel.add(startButton);
-
         this.getContentPane().add(selectionPanel);
 
         this.setTitle("New Game");
@@ -173,30 +192,16 @@ public class NewGameMenu extends JFrame implements ActionListener {
         this.pack();
         this.setVisible(true);
 
-
-        closeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-
-        startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    MazePuzzle.maze = MazePuzzle.generateMaze();
-                    Maze newMaze = new Maze(MazePuzzle.maze);
-                    dispose();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-
         //Set game default values
         MazePuzzle.difficulty = MazePuzzle.Difficulty.EASY;
         MazePuzzle.mazeSize = 9;
         MazePuzzle.numPlayers = 1;
         MazePuzzle.time = 40;
+        /*
+        selectionPanel.setBackground(Color.red); //debug
+        this.getContentPane().setBackground(Color.yellow); //debug
+        optionPanel.setBackground(Color.DARK_GRAY); //debug
+        */
     }
 
     @Override
@@ -215,21 +220,14 @@ public class NewGameMenu extends JFrame implements ActionListener {
             System.out.println(newSelection);
         } else if (cb.getName().contains("Maze Size Setting")) {
             if (newSelection.contains("SMALL")) {
-                //MazePuzzle.MAZE_SIZE = 9;
                 MazePuzzle.mazeSize = 9;
 
             } else if (newSelection.contains("MEDIUM")) {
-                //MazePuzzle.MAZE_SIZE = 15;
                 MazePuzzle.mazeSize = 15;
 
             } else {
-                //MazePuzzle.MAZE_SIZE = 21;
                 MazePuzzle.mazeSize = 21;
             }
-
-            System.out.println("Maze size set: ");
-            System.out.println(MazePuzzle.mazeSize);
-
         } else if (cb.getName().contains("Game Difficulty Setting")) {
             if (newSelection.contains("EASY")) {
                 MazePuzzle.difficulty = MazePuzzle.Difficulty.EASY;
@@ -238,21 +236,17 @@ public class NewGameMenu extends JFrame implements ActionListener {
             } else {
                 MazePuzzle.difficulty = MazePuzzle.Difficulty.HARD;
             }
-            System.out.println("Difficulty set: ");
-            System.out.println(MazePuzzle.difficulty);
         } else if (cb.getName().contains("Timer Setting")) {
             int time = Integer.parseInt(newSelection);
             if (time > 0) {
                 if (time <= 999) {
                     MazePuzzle.time = time;
-                    //Set max time
+                //Set max time
                 } else {
                     MazePuzzle.time = 999;
 
                 }
             }
-            System.out.println("Timer set: ");
-            System.out.println(time);
         }
     }
 }
