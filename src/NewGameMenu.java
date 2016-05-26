@@ -208,6 +208,7 @@ public class NewGameMenu extends JFrame implements ActionListener {
             } else {
             	MazePuzzle.time = 80;
             }
+            MazePuzzle.time = time;
             System.out.println("Timer set: ");
             System.out.println(time);
         }
