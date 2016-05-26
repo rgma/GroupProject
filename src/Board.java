@@ -336,13 +336,13 @@ public class Board extends JPanel implements ActionListener{
 		player2.changeStarting2(tileSize, rowCols);
 		MazePuzzle newMaze = new MazePuzzle();
 		MazePuzzle.MAZE_SIZE = changeSize;
-	    if(difficulty == "easy"){
+	    if(MazePuzzle.difficulty == MazePuzzle.Difficulty.EASY){
 	    	newMaze.changeToEasy();
 	    }
-	    if(difficulty == "medium"){
+	    if(MazePuzzle.difficulty == MazePuzzle.Difficulty.MEDIUM){
 	    	newMaze.changeToMedium();
 	    }
-	    if(difficulty == "hard"){
+	    if(MazePuzzle.difficulty == MazePuzzle.Difficulty.HARD){
 	    	newMaze.changeToHard();
 	    }
 		maze = newMaze.generateMaze();

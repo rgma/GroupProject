@@ -372,7 +372,7 @@ public class MazePuzzle {
     }
     
     public int getMazeSize(){
-    	return MAZE_SIZE;
+    	return mazeSize;
     }
     
     public void changeToEasy(){
