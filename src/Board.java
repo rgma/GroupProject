@@ -175,7 +175,6 @@ public class Board extends JPanel implements ActionListener {
         score = 0;
         score2 = 0;
         rowCols = newMaze.getMazeSize();
-        System.out.print(rowCols);
         tileSize = 700 / rowCols;
         finishX = rowCols / 2;
         finishY = rowCols;
@@ -316,7 +315,6 @@ public class Board extends JPanel implements ActionListener {
         g.drawString("TIME LEFT", 750 + (side * 2), 40);
 
         numberAsString = String.valueOf(new DecimalFormat("#0").format((timeAvailable - (tDelta / 1000.0))));
-        System.out.println(timeAvailable - (tDelta / 1000.0));
         if (Integer.parseInt(numberAsString) <= 0) {
             g.setFont(new Font("Press Start 2P", Font.PLAIN, 70));
             g.drawString("0", 800 + (side * 2), 150);

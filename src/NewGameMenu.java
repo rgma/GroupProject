@@ -215,9 +215,6 @@ public class NewGameMenu extends JFrame implements ActionListener {
             } else {
                 MazePuzzle.numPlayers = 2;
             }
-
-            System.out.println("Num players set: ");
-            System.out.println(newSelection);
         } else if (cb.getName().contains("Maze Size Setting")) {
             if (newSelection.contains("SMALL")) {
                 MazePuzzle.mazeSize = 9;
