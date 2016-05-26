@@ -59,26 +59,6 @@ public class Board extends JPanel implements ActionListener{
 	Image backgroundMain;
 	MazePuzzle mazePuzzle;
 	public Board(Position[][] maze) throws IOException{
-		mazePuzzle = new MazePuzzle();
-		if(MazePuzzle.numPlayers == 2){
-			mode = "multiPlayer";
-		}
-		if(MazePuzzle.numPlayers == 1){
-			mode = "singlePlayer";
-		}
-		
-		rowCols = mazePuzzle.getMazeSize();
-		tileSize = 700/rowCols;
-		finishX = rowCols/2;
-		finishY = rowCols - 1;
-
-		player = new Player(1);
-		player.create1();
-		player2 = new Player(2);
-		this.maze = maze;
-		gameDone = false;
-		timer = new Timer(5, this);
-		timer.start();
 		addKeyListener(new AL());
 		addKeyListener(new AL2());
 		setFocusable(true);
@@ -153,16 +133,7 @@ public class Board extends JPanel implements ActionListener{
 		
 		init2();
 	}
-	
-	public void setButton(JButton button){
-		button.setFont(new Font("Press Start 2P", Font.PLAIN, 24));
-		button.setOpaque(false);
-		button.setContentAreaFilled(false);
-		//multiPlayer.setBorderPainted(false);
-		button.setFocusPainted(false);
-		button.addActionListener(new ButtonListener());
-		
-	}
+
 	
 	public void init() throws IOException{
 		player = new Player(1);
@@ -175,6 +146,14 @@ public class Board extends JPanel implements ActionListener{
 	}
 	
 	public void init2() throws IOException{
+		if(MazePuzzle.numPlayers == 2){
+			mode = "multiPlayer";
+		}
+		if(MazePuzzle.numPlayers == 1){
+			mode = "singlePlayer";
+		}
+		finishX = rowCols/2;
+		finishY = rowCols - 1;
 		gameDone = false;
 		timeSet = timeSetRestart;
 		timeAvailable = timeSet;
@@ -182,9 +161,8 @@ public class Board extends JPanel implements ActionListener{
 		player2 = new Player(2);
 		player2.changeStarting2(tileSize, rowCols);
 		MazePuzzle newMaze = new MazePuzzle();
-		
 		maze = newMaze.generateMaze();
-
+		
 		tStart = System.currentTimeMillis();
 		setFocusable(true);
 		score = 0;
@@ -200,15 +178,10 @@ public class Board extends JPanel implements ActionListener{
 
 	
 		grass[0] = grass[0].getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT);
-		
 		grass[1] = grass[1].getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT);
-	
 		grass[2] = grass[2].getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT);
-	
 		fenceSide = fenceSide.getScaledInstance(5, tileSize, Image.SCALE_DEFAULT);
-		
 		fenceFront = fenceFront.getScaledInstance(tileSize, 5, Image.SCALE_DEFAULT);
-
 		ball1 = ball1.getScaledInstance(tileSize/2, tileSize/2, Image.SCALE_DEFAULT);
 		ball2 = ball2.getScaledInstance(tileSize/2, tileSize/2, Image.SCALE_DEFAULT);
 	}
