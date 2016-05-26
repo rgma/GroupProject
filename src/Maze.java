@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -49,4 +50,5 @@ public class Maze{
     	frame.setLocationRelativeTo(null);
     	frame.setVisible(true);
     }
+    
 }

@@ -55,17 +55,17 @@ public class Board extends JPanel implements ActionListener{
 	int rowCols = 0;
 	int finishX;
 	int finishY;
-
 	Image backgroundMain;
 	MazePuzzle mazePuzzle;
 	public Board(Position[][] maze) throws IOException{
+		this.setLayout(null);
 		addKeyListener(new AL());
 		addKeyListener(new AL2());
 		setFocusable(true);
 		try {
 		     GraphicsEnvironment ge = 
 		         GraphicsEnvironment.getLocalGraphicsEnvironment();
-		     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("PressStart2P.ttf")));
+		     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/PressStart2P.ttf")));
 		} catch (IOException|FontFormatException e) {
 		     //Handle exception
 		}
@@ -99,6 +99,7 @@ public class Board extends JPanel implements ActionListener{
 		menu.addActionListener(new ButtonListener());
 		menu.setSize(250, 50);
 		menu.setLocation(700 + (side * 2), 630 + top);
+		menu.setForeground(Color.BLACK);
 		//menu.setBorderPainted(false);
 		
 		menu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -120,6 +121,7 @@ public class Board extends JPanel implements ActionListener{
 		restart.addActionListener(new ButtonListener());
 		restart.setSize(250, 50);
 		restart.setLocation(700 + (side * 2), 550 + top);
+		restart.setForeground(Color.BLACK);
 		//restart.setBorderPainted(false);
 		restart.addMouseListener(new java.awt.event.MouseAdapter() {
 		    public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -130,7 +132,8 @@ public class Board extends JPanel implements ActionListener{
 		        restart.setForeground(Color.BLACK);
 		    }
 		});
-		
+		this.add(menu);
+		this.add(restart);
 		init2();
 	}
 
@@ -157,9 +160,6 @@ public class Board extends JPanel implements ActionListener{
 		gameDone = false;
 		timeSet = timeSetRestart;
 		timeAvailable = timeSet;
-		player = new Player(1);
-		player2 = new Player(2);
-		player2.changeStarting2(tileSize, rowCols);
 		MazePuzzle newMaze = new MazePuzzle();
 		maze = newMaze.generateMaze();
 		
@@ -172,7 +172,10 @@ public class Board extends JPanel implements ActionListener{
 		tileSize = 700/rowCols;
 		finishX = rowCols/2;
 		finishY = rowCols - 1;
-	
+		player = new Player(1);
+		player2 = new Player(2);
+		player2.changeStarting2(tileSize, rowCols);
+		
 		timer = new Timer(5, this);
 		timer.start();
 
@@ -196,20 +199,14 @@ public class Board extends JPanel implements ActionListener{
 	
 	public void paint(Graphics g){
 		super.paint(g);
-	
 		g.setFont(new Font("Press Start 2P", Font.PLAIN, 60)); 
 		g.drawString("Maze Bound",100,100);
 		//g.drawImage(backgroundMain, 0, 0, null);
 	
 		if(mode.equals("singlePlayer")){
-			this.add(menu);
-			this.add(restart);
 			singlePlayer(g);
 		}	
 		else if(mode.equals("multiPlayer")){
-			this.add(menu);
-			this.add(restart);
-			background(g);
 			multiPlayer(g);
 		}
 
@@ -317,7 +314,9 @@ public class Board extends JPanel implements ActionListener{
 	
 	}
 	public void multiPlayer(Graphics g){
+		background(g);
 		if(gameDone == false){
+			
 			drawCharacter(player, g);
 			drawCharacter(player2, g);
 			if(maze[player2.getYTile()][player2.getXTile()].hasCoin == true){
@@ -330,6 +329,8 @@ public class Board extends JPanel implements ActionListener{
 			}
 			drawMaze(g);
 			g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
+			g.setColor(Color.BLACK);
+			
 			String numberAsString = String.valueOf(score);
 			g.drawString("PLAYER 1 SCORE ", 700 + (side * 2), 50);
 			g.drawString(numberAsString, 700 + (side * 2), 100);
@@ -347,7 +348,7 @@ public class Board extends JPanel implements ActionListener{
 				gameDone = true;
 			}
 		
-		} else {
+		} /*else {
 			drawMaze(g);
 			g.setFont(new Font("Press Start 2P", Font.PLAIN, 18)); 
 			String numberAsString = String.valueOf(score);
@@ -358,7 +359,7 @@ public class Board extends JPanel implements ActionListener{
 			numberAsString = String.valueOf(score2);
 			g.drawString(numberAsString, 700 + (side * 2), 200);
 		
-		}
+		}*/
 		
 		
 	}
@@ -394,6 +395,13 @@ public class Board extends JPanel implements ActionListener{
 		image = image.getScaledInstance(tileSize - charX, tileSize  - charX, Image.SCALE_DEFAULT);
 		g.drawImage(image,side+player.getX()+charX,player.getY()+charX+top,null);
 	}
+	
+	public void close(){
+		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+		//frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+		frame.dispose();
+	}
+	
 	
 	public class AL extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
@@ -504,7 +512,8 @@ public class Board extends JPanel implements ActionListener{
 
 		    if (source == menu) {
 		        menu.setForeground(Color.BLACK);
-		        mode = "menu";
+		        NewGameMenu newGame = new NewGameMenu();
+		        close();
 		    }
 		    if (source == restart){
 		    	try {

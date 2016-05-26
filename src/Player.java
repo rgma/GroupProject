@@ -127,9 +127,10 @@ public class Player {
 	}
 	
 	public void changeStarting2(int tileSize, int rowCols){
-		yTile = 0;
 		xTile = rowCols - 1;
+		yTile = 0;
 		x = x + ((rowCols-1)*tileSize);
+		y= 0;
 	}
 	
 }
